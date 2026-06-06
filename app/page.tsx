@@ -1,4 +1,12 @@
-export default function Home() {
+import { supabase } from "../lib/supabase";
+
+export default async function Home() {
+  const { data: students } = await supabase
+    .from("students")
+    .select("slug, full_name, program, profile_photo_url, quote")
+    .eq("is_published", true)
+    .eq("cohort_year", 2025);
+
   return (
     <main>
       <nav style={{
@@ -77,25 +85,20 @@ export default function Home() {
           <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 600 }}>Meet the Graduates</h2>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px', maxWidth: '1200px', margin: '0 auto' }}>
-          {[
-            { name: 'Adaeze Okonkwo', program: 'Business Administration', slug: 'adaeze-okonkwo', photo: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=600&q=80', quote: 'The future belongs to those who believe in the beauty of their dreams.' },
-            { name: 'Emeka Nwosu', program: 'Computer Science', slug: 'emeka-nwosu', photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&q=80', quote: 'Code is poetry written for machines but read by humans.' },
-            { name: 'Graduate Name', program: 'Programme · 2025', slug: '', photo: '', quote: 'Placeholder quote from the graduate...' },
-            { name: 'Graduate Name', program: 'Programme · 2025', slug: '', photo: '', quote: 'Placeholder quote from the graduate...' },
-            { name: 'Graduate Name', program: 'Programme · 2025', slug: '', photo: '', quote: 'Placeholder quote from the graduate...' },
-            { name: 'Graduate Name', program: 'Programme · 2025', slug: '', photo: '', quote: 'Placeholder quote from the graduate...' },
-          ].map((student, i) => (
-            <a key={i} href={student.slug ? `/students/${student.slug}` : '#'} style={{ textDecoration: 'none' }}>
+          {students?.map((student) => (
+            <a key={student.slug} href={`/students/${student.slug}`} style={{ textDecoration: 'none' }}>
               <div style={{ backgroundColor: '#1B2A4A', border: '1px solid #1F3154', overflow: 'hidden', cursor: 'pointer' }}>
-                <div style={{ width: '100%', aspectRatio: '3/4', backgroundColor: '#1F3154', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                  {student.photo ? (
-                    <img src={student.photo} alt={student.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <div style={{ width: '100%', aspectRatio: '3/4', backgroundColor: '#1F3154', overflow: 'hidden' }}>
+                  {student.profile_photo_url ? (
+                    <img src={student.profile_photo_url} alt={student.full_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
-                    <span style={{ color: '#2A3F6B', fontSize: '48px' }}>◈</span>
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ color: '#2A3F6B', fontSize: '48px' }}>◈</span>
+                    </div>
                   )}
                 </div>
                 <div style={{ padding: '20px' }}>
-                  <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', marginBottom: '4px', color: '#F5F5F0' }}>{student.name}</div>
+                  <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', marginBottom: '4px', color: '#F5F5F0' }}>{student.full_name}</div>
                   <div style={{ color: '#E63946', fontSize: '12px', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '12px' }}>{student.program}</div>
                   <div style={{ color: '#6B7A99', fontSize: '13px', fontStyle: 'italic', lineHeight: 1.5 }}>"{student.quote}"</div>
                 </div>
