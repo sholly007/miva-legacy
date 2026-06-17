@@ -37,7 +37,7 @@ export default async function Home() {
         </p>
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
           <a href="#students" style={{ backgroundColor: '#E63946', color: '#F5F5F0', padding: '16px 40px', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none' }}>Meet the Class</a>
-          <a href="#about" style={{ border: '1px solid rgba(230, 57, 70, 0.4)', color: '#E63946', padding: '16px 40px', fontSize: '14px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none' }}>Our Story</a>
+          <a href="/our-story" style={{ border: '1px solid rgba(230, 57, 70, 0.4)', color: '#E63946', padding: '16px 40px', fontSize: '14px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none' }}>Our Story</a>
         </div>
         <div style={{ width: '1px', height: '80px', background: 'linear-gradient(to bottom, #E63946, transparent)', marginTop: '80px' }} />
       </section>
