@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { supabase } from "../../../lib/supabase";
 
+export const revalidate = 0;
+
 export default async function StudentProfile({ params }: { params: { slug: string } }) {
   const { data: student, error } = await supabase
     .from("students")
