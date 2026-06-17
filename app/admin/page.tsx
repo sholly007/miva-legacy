@@ -8,6 +8,7 @@ const emptyForm = {
   fullName: "",
   photoUrl: "",
   degree: "",
+  duration: "",
   bio: "",
   linkedinUrl: "",
   twitterUrl: "",
@@ -294,6 +295,21 @@ export default function AdminPage() {
                   type="text"
                   value={form.degree}
                   onChange={(e) => updateField("degree", e.target.value)}
+                  style={inputStyle}
+                  required
+                />
+              </div>
+
+              <div>
+                <label style={labelStyle} htmlFor="duration">
+                  Duration
+                </label>
+                <input
+                  id="duration"
+                  type="text"
+                  value={form.duration}
+                  onChange={(e) => updateField("duration", e.target.value)}
+                  placeholder='e.g. "2 years" or "2022 - 2025"'
                   style={inputStyle}
                   required
                 />

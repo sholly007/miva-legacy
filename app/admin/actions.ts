@@ -19,6 +19,7 @@ export type StudentFormData = {
   fullName: string;
   photoUrl: string;
   degree: string;
+  duration: string;
   bio: string;
   linkedinUrl: string;
   twitterUrl: string;
@@ -45,12 +46,14 @@ export async function addStudent(
     slug: slugify(data.fullName),
     profile_photo_url: data.photoUrl.trim(),
     program: data.degree.trim(),
+    duration: data.duration.trim(),
     bio: data.bio.trim(),
     linkedin_url: data.linkedinUrl.trim() || null,
     twitter_url: data.twitterUrl.trim() || null,
     cohort_year: parseInt(data.graduationYear, 10),
-    gpa: data.gpa.trim() ? parseFloat(data.gpa) : null,
+    gpa: data.gpa.trim() || null,
     achievements,
+    gallery_urls: [],
     is_published: true,
   });
 
