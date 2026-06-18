@@ -34,7 +34,7 @@ export default function OurStoryPage() {
         <div className="container hub-hero-content">
           <span className="hub-tag">Why We Built This</span>
           <h1 className="hub-title">
-            The Story Behind <span style={{ color: "#E63946" }}>Miva Legacy</span>
+            The Story Behind <span className="text-accent">Miva Legacy</span>
           </h1>
           <p className="hub-subtitle" style={{ marginBottom: 0 }}>
             Built to preserve the Pioneer Class of 2025 — the first graduates of Miva Open University — as a permanent record of where it all began.

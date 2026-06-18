@@ -77,7 +77,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="alumni-section" style={{ paddingTop: 0 }}>
+      <section className="alumni-section alumni-section-alt" style={{ paddingTop: 0 }}>
         <div className="container">
           <div className="about-panel">
             <p className="section-label">About This Archive</p>
