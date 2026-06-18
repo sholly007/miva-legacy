@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SiteNav } from "../../components/SiteNav";
+import { SiteFooter } from "../../components/SiteFooter";
 
 const storySections = [
   {
@@ -21,109 +22,61 @@ const storySections = [
 
 export default function OurStoryPage() {
   return (
-    <main style={{ backgroundColor: "#0D1B2A", color: "#F5F5F0", minHeight: "100vh" }}>
+    <main>
       <SiteNav
         links={[
-          { href: "/", label: "Back to Home" },
           { href: "/#students", label: "Meet the Class" },
+          { href: "/", label: "Home" },
         ]}
       />
 
-      <section className="page-hero page-hero-compact">
-        <div style={{ width: "1px", height: "48px", background: "linear-gradient(to bottom, transparent, #E63946)", marginBottom: "24px" }} />
-        <p className="hero-eyebrow">Why We Built This</p>
-        <h1 className="hero-title" style={{ fontSize: "clamp(30px, 8vw, 72px)" }}>
-          The Story Behind
-          <br />
-          <span style={{ color: "#E63946" }}>Miva Legacy</span>
-        </h1>
-        <p className="hero-subtitle" style={{ marginBottom: 0 }}>
-          Built to preserve the Pioneer Class of 2025 — the first graduates of Miva Open University — as a permanent record of where it all began.
-        </p>
-      </section>
-
-      <section className="section-pad" style={{ maxWidth: "900px", margin: "0 auto", paddingTop: "clamp(40px, 8vw, 60px)" }}>
-        {storySections.map((section, index) => (
-          <article
-            key={section.label}
-            style={{
-              marginBottom: index < storySections.length - 1 ? "clamp(48px, 8vw, 80px)" : 0,
-              paddingBottom: index < storySections.length - 1 ? "clamp(48px, 8vw, 80px)" : 0,
-              borderBottom: index < storySections.length - 1 ? "1px solid #1F3154" : "none",
-            }}
-          >
-            <p className="hero-eyebrow" style={{ marginBottom: "12px" }}>
-              {section.label}
-            </p>
-            <h2
-              style={{
-                fontFamily: "Playfair Display, serif",
-                fontSize: "clamp(24px, 6vw, 40px)",
-                fontWeight: 600,
-                lineHeight: 1.2,
-                marginBottom: "16px",
-              }}
-            >
-              {section.title}
-            </h2>
-            <p style={{ color: "#B0B8C8", lineHeight: 1.8, fontSize: "clamp(15px, 4vw, 16px)", fontWeight: 300 }}>
-              {section.body}
-            </p>
-          </article>
-        ))}
-      </section>
-
-      <section
-        className="section-pad-sm"
-        style={{ backgroundColor: "#162338", borderTop: "1px solid #1F3154", borderBottom: "1px solid #1F3154" }}
-      >
-        <blockquote className="quote-box">
-          <p>
-            &ldquo;The first class does not just graduate — they become the standard by which every class that follows is measured.&rdquo;
+      <section className="story-hero">
+        <div className="container hub-hero-content">
+          <span className="hub-tag">Why We Built This</span>
+          <h1 className="hub-title">
+            The Story Behind <span style={{ color: "#E63946" }}>Miva Legacy</span>
+          </h1>
+          <p className="hub-subtitle" style={{ marginBottom: 0 }}>
+            Built to preserve the Pioneer Class of 2025 — the first graduates of Miva Open University — as a permanent record of where it all began.
           </p>
-          <footer style={{ color: "#E63946", fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase" }}>
-            Pioneer Class · 2025
-          </footer>
-        </blockquote>
-      </section>
-
-      <section className="section-pad" style={{ textAlign: "center" }}>
-        <p
-          style={{
-            color: "#B0B8C8",
-            fontSize: "clamp(15px, 4vw, 16px)",
-            lineHeight: 1.7,
-            maxWidth: "480px",
-            margin: "0 auto 32px",
-            fontWeight: 300,
-            padding: "0 4px",
-          }}
-        >
-          Explore the profiles of the graduates who made history as Miva Open University&apos;s founding class.
-        </p>
-        <Link href="/" className="btn-primary" style={{ margin: "0 auto" }}>
-          Meet the Pioneer Class
-        </Link>
-      </section>
-
-      <footer className="site-footer">
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <div
-            style={{
-              width: "24px",
-              height: "24px",
-              background: "linear-gradient(135deg, #E63946 50%, #C0392B 100%)",
-              clipPath: "polygon(50% 0%, 100% 100%, 50% 70%, 0% 100%)",
-            }}
-          />
-          <span style={{ fontFamily: "Playfair Display, serif", color: "#F5F5F0", fontSize: "16px" }}>
-            MIVA LEGACY
-          </span>
         </div>
-        <span style={{ color: "#6B7A99", fontSize: "12px", lineHeight: 1.5 }}>
-          © 2025 Miva Open University · Pioneer Class
-        </span>
-      </footer>
+      </section>
+
+      <section className="story-content">
+        <div className="container" style={{ maxWidth: "800px" }}>
+          {storySections.map((section) => (
+            <article key={section.label} className="story-article">
+              <p className="section-label">{section.label}</p>
+              <h2>{section.title}</h2>
+              <p>{section.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="quote-section">
+        <div className="container">
+          <blockquote className="quote-panel">
+            <p>
+              &ldquo;The first class does not just graduate — they become the standard by which every class that follows is measured.&rdquo;
+            </p>
+            <footer>Pioneer Class · 2025</footer>
+          </blockquote>
+        </div>
+      </section>
+
+      <section className="cta-section">
+        <div className="container">
+          <p>
+            Explore the profiles of the graduates who made history as Miva Open University&apos;s founding class.
+          </p>
+          <Link href="/#students" className="btn-primary">
+            Meet the Pioneer Class
+          </Link>
+        </div>
+      </section>
+
+      <SiteFooter />
     </main>
   );
 }
