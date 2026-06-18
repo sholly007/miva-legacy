@@ -25,7 +25,7 @@ export default function OurStoryPage() {
     <main>
       <SiteNav
         links={[
-          { href: "/#students", label: "Meet the Class" },
+          { href: "/directory", label: "Meet the Class" },
           { href: "/", label: "Home" },
         ]}
       />
@@ -70,7 +70,7 @@ export default function OurStoryPage() {
           <p>
             Explore the profiles of the graduates who made history as Miva Open University&apos;s founding class.
           </p>
-          <Link href="/#students" className="btn-primary">
+          <Link href="/directory" className="btn-primary">
             Meet the Pioneer Class
           </Link>
         </div>

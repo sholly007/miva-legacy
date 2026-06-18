@@ -328,6 +328,13 @@ h1, h2, h3, h4 {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.hub-hero-minimal {
+  padding: 180px 0 120px;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+}
+
 .hub-hero-content {
   max-width: 720px;
 }
