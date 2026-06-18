@@ -7,7 +7,7 @@ export default async function Home() {
     .from("students")
     .select("slug, full_name, program, profile_photo_url, quote")
     .eq("is_published", true)
-    .eq("cohort_year", 2025);
+    .order("created_at", { ascending: false });
 
   return (
     <main>
