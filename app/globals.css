@@ -324,8 +324,8 @@ h1, h2, h3, h4 {
 /* Hub hero */
 .hub-hero {
   padding: 100px 0 64px;
-  background-color: var(--white);
-  border-bottom: 1px solid var(--soft-blue);
+  background-color: var(--deep-navy);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .hub-hero-content {
@@ -334,7 +334,7 @@ h1, h2, h3, h4 {
 
 .hub-tag {
   display: inline-block;
-  color: var(--text-heading-secondary);
+  color: var(--text-on-dark);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -347,12 +347,12 @@ h1, h2, h3, h4 {
   font-size: clamp(32px, 6vw, 52px);
   font-weight: 700;
   line-height: 1.15;
-  color: var(--text-heading);
+  color: var(--text-on-dark);
   margin-bottom: 16px;
 }
 
 .hub-subtitle {
-  color: var(--text-body);
+  color: rgba(255, 255, 255, 0.85);
   font-size: clamp(15px, 2.5vw, 18px);
   line-height: 1.7;
   margin-bottom: 32px;
