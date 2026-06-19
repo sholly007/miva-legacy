@@ -2,6 +2,7 @@ import Link from "next/link";
 import { supabase } from "../../lib/supabase";
 import { SiteNav } from "../../components/SiteNav";
 import { SiteFooter } from "../../components/SiteFooter";
+import { ScrollReveal } from "../../components/ScrollReveal";
 
 export const dynamic = "force-dynamic";
 
@@ -27,33 +28,35 @@ export default async function Directory() {
         ]}
       />
 
-      <section className="alumni-section">
+      <section className="alumni-section alumni-section-directory">
         <div className="container">
-          <div className="section-header">
+          <div className="section-header animate-fade-up animate-delay-1">
             <p className="section-label">Alumni Directory</p>
             <h2 className="section-title">Meet the Graduates</h2>
           </div>
 
           <div className="alumni-grid">
-            {students?.map((student) => (
-              <article key={student.slug} className="alumni-card">
-                {student.profile_photo_url ? (
-                  <img src={student.profile_photo_url} alt={student.full_name} className="alumni-card-photo" />
-                ) : (
-                  <div className="alumni-card-photo-placeholder" aria-hidden="true">
-                    ◈
-                  </div>
-                )}
-                <h3 className="alumni-card-name">{student.full_name}</h3>
-                <p className="alumni-card-degree">{student.program}</p>
-                {student.cohort_year && (
-                  <span className="alumni-card-cohort">Class of {student.cohort_year}</span>
-                )}
-                <p className="alumni-card-bio">{bioPreview(student.bio)}</p>
-                <Link href={`/students/${student.slug}`} className="btn-card">
-                  View Profile
-                </Link>
-              </article>
+            {students?.map((student, index) => (
+              <ScrollReveal key={student.slug} delay={index * 80}>
+                <article className="alumni-card">
+                  {student.profile_photo_url ? (
+                    <img src={student.profile_photo_url} alt={student.full_name} className="alumni-card-photo" />
+                  ) : (
+                    <div className="alumni-card-photo-placeholder" aria-hidden="true">
+                      ◈
+                    </div>
+                  )}
+                  <h3 className="alumni-card-name">{student.full_name}</h3>
+                  <p className="alumni-card-degree">{student.program}</p>
+                  {student.cohort_year && (
+                    <span className="alumni-card-cohort">Class of {student.cohort_year}</span>
+                  )}
+                  <p className="alumni-card-bio">{bioPreview(student.bio)}</p>
+                  <Link href={`/students/${student.slug}`} className="btn-card">
+                    View Profile
+                  </Link>
+                </article>
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -61,13 +64,15 @@ export default async function Directory() {
 
       <section className="alumni-section alumni-section-alt" style={{ paddingTop: 0 }}>
         <div className="container">
-          <div className="about-panel">
-            <p className="section-label">About This Archive</p>
-            <h2>More than a yearbook. A permanent alumni home.</h2>
-            <p>
-              Miva Legacy is the digital graduating portfolio for Miva Open University — a structured, always-accessible record of every pioneer graduate&apos;s journey, achievements, and aspirations.
-            </p>
-          </div>
+          <ScrollReveal>
+            <div className="about-panel">
+              <p className="section-label">About This Archive</p>
+              <h2>More than a yearbook. A permanent alumni home.</h2>
+              <p>
+                Miva Legacy is the digital graduating portfolio for Miva Open University — a structured, always-accessible record of every pioneer graduate&apos;s journey, achievements, and aspirations.
+              </p>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
