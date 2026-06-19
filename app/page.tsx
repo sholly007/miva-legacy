@@ -15,11 +15,6 @@ export default function Home() {
       <div className="gradient-divider" />
 
       <section className="hub-hero hub-hero-minimal">
-        <div className="hub-hero-blobs" aria-hidden="true">
-          <div className="hero-blob hero-blob-1" />
-          <div className="hero-blob hero-blob-2" />
-          <div className="hero-blob hero-blob-3" />
-        </div>
         <div className="container hub-hero-content">
           <div className="hub-hero-glass">
             <span className="hub-tag animate-fade-up animate-delay-1">
