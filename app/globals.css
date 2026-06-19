@@ -476,6 +476,57 @@ h1, h2, h3, h4 {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   margin-bottom: 16px;
+  position: relative;
+}
+
+.hub-tag-underline {
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--deep-navy), var(--miva-red), var(--deep-navy));
+  background-size: 200% 100%;
+  opacity: 0.5;
+  animation: tagUnderlineDraw 1.2s var(--ease-smooth) 0.4s forwards,
+             tagUnderlineShimmer 5s ease-in-out infinite;
+}
+
+@keyframes tagUnderlineDraw {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes tagUnderlineShimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Animated gradient divider lines */
+.gradient-divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--deep-navy), var(--miva-red), var(--deep-navy));
+  background-size: 200% 100%;
+  opacity: 0.5;
+  animation: dividerShimmer 5s ease-in-out infinite;
+}
+
+@keyframes dividerShimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 .hub-title {
@@ -1322,6 +1373,15 @@ h1, h2, h3, h4 {
   }
 
   .hub-hero-mesh {
+    animation: none;
+  }
+
+  .hub-tag-underline {
+    animation: none;
+    width: 100%;
+  }
+
+  .gradient-divider {
     animation: none;
   }
 
