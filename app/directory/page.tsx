@@ -72,7 +72,7 @@ export default function Directory() {
 
   const cohorts = useMemo(() => {
     const uniqueCohorts = [...new Set(students.map((s) => s.cohort_year).filter(Boolean))];
-    return uniqueCohorts.sort((a, b) => b.localeCompare(a));
+    return uniqueCohorts.sort((a, b) => (a || "").localeCompare(b || ""));
   }, [students]);
 
   // Filter students based on search and filters
@@ -195,7 +195,7 @@ export default function Directory() {
               >
                 <option value="">All Cohorts</option>
                 {cohorts.map((cohort) => (
-                  <option key={cohort} value={cohort}>
+                  <option key={cohort || ""} value={cohort || ""}>
                     Class of {cohort}
                   </option>
                 ))}
