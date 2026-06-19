@@ -81,7 +81,7 @@ export default function Directory() {
       const matchesSearch = debouncedSearch === "" ||
         student.full_name.toLowerCase().includes(debouncedSearch.toLowerCase());
       const matchesProgram = selectedProgram === "" || student.program === selectedProgram;
-      const matchesCohort = selectedCohort === "" || student.cohort_year === selectedCohort;
+      const matchesCohort = selectedCohort === "" || String(student.cohort_year) === selectedCohort;
 
       return matchesSearch && matchesProgram && matchesCohort;
     });
