@@ -336,7 +336,7 @@ h1, h2, h3, h4 {
 }
 
 .hub-hero-content {
-  max-width: 720px;
+  max-width: 800px;
 }
 
 .hub-tag {
@@ -353,9 +353,11 @@ h1, h2, h3, h4 {
   font-family: 'Playfair Display', serif;
   font-size: clamp(32px, 6vw, 52px);
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.2;
   color: var(--text-on-dark);
   margin-bottom: 16px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .hub-subtitle {
@@ -843,6 +845,14 @@ h1, h2, h3, h4 {
   padding: 100px 0 56px;
   background-color: var(--white);
   border-bottom: 1px solid var(--soft-blue);
+}
+
+.story-hero .hub-title {
+  color: var(--text-heading);
+}
+
+.story-hero .hub-title .text-accent {
+  white-space: nowrap;
 }
 
 .story-content {
