@@ -13,7 +13,7 @@ type Student = {
   program: string;
   profile_photo_url: string | null;
   bio: string | null;
-  cohort_year: string | null;
+  cohort_year: string | number | null;
 };
 
 function bioPreview(bio: string | null, maxLength = 120) {
@@ -72,7 +72,7 @@ export default function Directory() {
 
   const cohorts = useMemo(() => {
     const uniqueCohorts = [...new Set(students.map((s) => s.cohort_year).filter(Boolean))];
-    return uniqueCohorts.sort((a, b) => (a || "").localeCompare(b || ""));
+    return uniqueCohorts.sort((a, b) => (Number(a) || 0) - (Number(b) || 0));
   }, [students]);
 
   // Filter students based on search and filters
