@@ -23,7 +23,7 @@ export default function Home() {
             </span>
             <h1 className="hub-title animate-fade-up animate-delay-2">Pioneer Class Alumni Directory</h1>
             <p className="hub-subtitle animate-fade-up animate-delay-3">
-              Connect with the graduates who built the foundation of Miva Open University. Browse profiles, explore achievements, and celebrate the Class of 2025.
+              Connect with the graduates who built the foundation of Miva Open University. Browse profiles, explore achievements, and celebrate the Class of 2026.
             </p>
             <div className="btn-group animate-fade-up animate-delay-4">
               <Link href="/directory" className="btn-primary">

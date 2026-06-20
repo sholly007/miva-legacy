@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Miva Legacy — Class of 2025",
-  description: "The digital graduating portfolio of Miva University's Pioneer Class of 2025.",
+  title: "Miva Legacy — Class of 2026",
+  description: "The digital graduating portfolio of Miva University's Pioneer Class of 2026.",
 };
 
 export const viewport: Viewport = {

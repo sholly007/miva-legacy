@@ -6,7 +6,7 @@ const storySections = [
   {
     label: "The Beginning",
     title: "The first class to cross the finish line",
-    body: "In 2025, Miva Open University celebrated a milestone that had never happened before — its first graduating cohort. The Pioneer Class walked a path no one had walked before them: navigating online lectures from Lagos to Abuja, balancing work and study, and proving that world-class education could reach every corner of Nigeria. Their journey was not just personal. It was historic.",
+    body: "In 2026, Miva Open University celebrated a milestone that had never happened before — its first graduating cohort. The Pioneer Class walked a path no one had walked before them: navigating online lectures from Lagos to Abuja, balancing work and study, and proving that world-class education could reach every corner of Nigeria. Their journey was not just personal. It was historic.",
   },
   {
     label: "The Idea",
@@ -16,7 +16,7 @@ const storySections = [
   {
     label: "The Mission",
     title: "Preserving what the pioneers built",
-    body: "Miva Legacy exists to honour the Class of 2025 not as a footnote in university history, but as the foundation of everything that follows. Each profile is a chapter. Each photo is proof. Each quote is a voice that will still be heard long after graduation day. This is their record — and the first page of a legacy that will grow with every class to come.",
+    body: "Miva Legacy exists to honour the Class of 2026 not as a footnote in university history, but as the foundation of everything that follows. Each profile is a chapter. Each photo is proof. Each quote is a voice that will still be heard long after graduation day. This is their record — and the first page of a legacy that will grow with every class to come.",
   },
 ];
 
@@ -37,7 +37,7 @@ export default function OurStoryPage() {
             The Story Behind <span className="text-accent">Miva Legacy</span>
           </h1>
           <p className="hub-subtitle" style={{ marginBottom: 0 }}>
-            Built to preserve the Pioneer Class of 2025 — the first graduates of Miva Open University — as a permanent record of where it all began.
+            Built to preserve the Pioneer Class of 2026 — the first graduates of Miva Open University — as a permanent record of where it all began.
           </p>
         </div>
       </section>
@@ -60,7 +60,7 @@ export default function OurStoryPage() {
             <p>
               &ldquo;The first class does not just graduate — they become the standard by which every class that follows is measured.&rdquo;
             </p>
-            <footer>Pioneer Class · 2025</footer>
+            <footer>Pioneer Class · 2026</footer>
           </blockquote>
         </div>
       </section>

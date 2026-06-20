@@ -12,7 +12,7 @@ const emptyForm = {
   bio: "",
   linkedinUrl: "",
   twitterUrl: "",
-  graduationYear: "2025",
+  graduationYear: "2026",
   gpa: "",
   achievements: "",
 };
@@ -161,7 +161,7 @@ export default function AdminPage() {
                   type="text"
                   value={form.duration}
                   onChange={(e) => updateField("duration", e.target.value)}
-                  placeholder='e.g. "2 years" or "2022 - 2025"'
+                  placeholder='e.g. "2 years" or "2023 - 2026"'
                   className="admin-input"
                   required
                 />
