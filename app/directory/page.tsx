@@ -36,6 +36,8 @@ function DirectoryContent() {
   const [selectedCohort, setSelectedCohort] = useState("");
   const [selectedDegreeLevel, setSelectedDegreeLevel] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [savedScrollPosition, setSavedScrollPosition] = useState<string | null>(null);
+  const [currentScrollPosition, setCurrentScrollPosition] = useState(0);
   const studentsPerPage = 12;
 
   // Fetch students from Supabase
@@ -61,6 +63,10 @@ function DirectoryContent() {
     let debouncedSaveScrollPosition;
     let scrollTimeout;
 
+    const updateCurrentScroll = () => {
+      setCurrentScrollPosition(window.scrollY);
+    };
+
     debouncedSaveScrollPosition = () => {
       if (scrollTimeout) clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
@@ -69,10 +75,15 @@ function DirectoryContent() {
       }, 100); // Debounce for 100ms
     };
 
-    window.addEventListener("scroll", debouncedSaveScrollPosition);
+    const handleScroll = () => {
+      updateCurrentScroll();
+      debouncedSaveScrollPosition();
+    };
+
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", debouncedSaveScrollPosition);
+      window.removeEventListener("scroll", handleScroll);
       if (scrollTimeout) clearTimeout(scrollTimeout);
     };
   }, []);
@@ -80,17 +91,20 @@ function DirectoryContent() {
   // Restore scroll position after loading
   useEffect(() => {
     if (!loading) {
-      const savedPosition = sessionStorage.getItem("directoryScrollPosition");
+      const savedPos = sessionStorage.getItem("directoryScrollPosition");
+      setSavedScrollPosition(savedPos);
 
-      if (savedPosition) {
+      if (savedPos) {
         // Use requestAnimationFrame multiple times to ensure DOM is ready
         const restoreScroll = () => {
-          window.scrollTo(0, parseInt(savedPosition, 10));
+          window.scrollTo(0, parseInt(savedPos, 10));
         };
 
         requestAnimationFrame(restoreScroll);
         setTimeout(restoreScroll, 100);
         setTimeout(restoreScroll, 300);
+        setTimeout(restoreScroll, 600);
+        setTimeout(restoreScroll, 1000);
       }
     }
   }, [loading]);
@@ -245,6 +259,25 @@ function DirectoryContent() {
 
   return (
     <main>
+      {/* Debug Overlay */}
+      <div style={{
+        position: 'fixed',
+        top: '10px',
+        left: '10px',
+        backgroundColor: 'rgba(230, 57, 70, 0.95)',
+        color: 'white',
+        padding: '10px 15px',
+        borderRadius: '8px',
+        zIndex: 99999,
+        fontFamily: 'monospace',
+        fontSize: '14px',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
+      }}>
+        <div><strong>Current Scroll:</strong> {currentScrollPosition}px</div>
+        <div><strong>Saved Scroll:</strong> {savedScrollPosition ? `${savedScrollPosition}px` : 'None'}</div>
+        <div><strong>Students Loaded:</strong> {loading ? 'No' : 'Yes'}</div>
+      </div>
+
       <SiteNav links={navLinks} />
 
       <section className="alumni-section alumni-section-directory">
@@ -338,7 +371,7 @@ function DirectoryContent() {
                       <span className="alumni-card-cohort">Class of {student.cohort_year}</span>
                     )}
                     <p className="alumni-card-bio">{bioPreview(student.bio)}</p>
-                    <Link href={`/students/${student.slug}`} className="btn-card">
+                    <Link href={`/students/${student.slug}`} scroll={false} className="btn-card">
                       View Profile
                     </Link>
                   </article>
