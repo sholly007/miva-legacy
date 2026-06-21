@@ -39,6 +39,7 @@ export default function EditStudentPage({ params }: { params: { token: string } 
             gpa: data.gpa?.toString() ?? "",
             achievements: (data.achievements ?? []).join("\n"),
             galleryUrls: (data.gallery_urls ?? []).join("\n"),
+            matricNumber: String(data.matric_number ?? ""),
           };
           setForm(newForm);
         }
@@ -208,6 +209,20 @@ export default function EditStudentPage({ params }: { params: { token: string } 
               placeholder='e.g. "2 years" or "2023 - 2026"'
               className="admin-input"
               required
+            />
+          </div>
+
+          <div>
+            <label className="admin-label" htmlFor="matricNumber">
+              Matriculation/Student ID
+            </label>
+            <input
+              id="matricNumber"
+              type="text"
+              value={form.matricNumber}
+              onChange={(e) => updateField("matricNumber", e.target.value)}
+              placeholder='e.g. "MOU/CSC/22/0481"'
+              className="admin-input"
             />
           </div>
 

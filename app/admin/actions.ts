@@ -27,6 +27,7 @@ export type StudentFormData = {
   graduationYear: string;
   gpa: string;
   achievements: string;
+  matricNumber: string;
 };
 
 export async function addStudent(
@@ -56,6 +57,7 @@ export async function addStudent(
     gpa: data.gpa.trim() || null,
     achievements,
     gallery_urls: [],
+    matric_number: data.matricNumber.trim() || null,
     is_published: true,
   });
 
@@ -110,6 +112,7 @@ export async function updateStudent(
       gpa: data.gpa.trim() || null,
       achievements,
       gallery_urls: galleryUrls,
+      matric_number: data.matricNumber?.trim() || null,
     })
     .eq("id", student.id);
 

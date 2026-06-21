@@ -78,10 +78,12 @@ export default async function StudentProfile({ params }: { params: { slug: strin
                   <span className="profile-meta-value">Class of {student.cohort_year}</span>
                 </li>
               )}
-              <li className="profile-meta-item">
-                <span className="profile-meta-label">Student ID</span>
-                <span className="profile-meta-value">{student.slug}</span>
-              </li>
+              {student.matric_number && (
+                <li className="profile-meta-item">
+                  <span className="profile-meta-label">Matriculation ID</span>
+                  <span className="profile-meta-value">{student.matric_number}</span>
+                </li>
+              )}
               <li className="profile-meta-item">
                 <span className="profile-meta-label">Location</span>
                 <span className="profile-meta-value">Nigeria</span>

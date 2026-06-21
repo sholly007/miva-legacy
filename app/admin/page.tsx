@@ -16,6 +16,7 @@ const emptyForm = {
   graduationYear: "2026",
   gpa: "",
   achievements: "",
+  matricNumber: "",
 };
 
 export default function AdminPage() {
@@ -183,6 +184,20 @@ export default function AdminPage() {
                   placeholder='e.g. "2 years" or "2023 - 2026"'
                   className="admin-input"
                   required
+                />
+              </div>
+
+              <div>
+                <label className="admin-label" htmlFor="matricNumber">
+                  Matriculation/Student ID
+                </label>
+                <input
+                  id="matricNumber"
+                  type="text"
+                  value={form.matricNumber}
+                  onChange={(e) => updateField("matricNumber", e.target.value)}
+                  placeholder='e.g. "MOU/CSC/22/0481"'
+                  className="admin-input"
                 />
               </div>
 
