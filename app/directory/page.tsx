@@ -36,7 +36,6 @@ function DirectoryContent() {
   const [selectedCohort, setSelectedCohort] = useState("");
   const [selectedDegreeLevel, setSelectedDegreeLevel] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentScrollPosition, setCurrentScrollPosition] = useState(0);
   const studentsPerPage = 12;
 
   // Fetch students from Supabase
@@ -61,22 +60,15 @@ function DirectoryContent() {
   useEffect(() => {
     let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
 
-    const updateCurrentScroll = () => {
-      setCurrentScrollPosition(window.scrollY);
-    };
-
     const debouncedSaveScrollPosition = () => {
       if (scrollTimeout) clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         const position = window.scrollY;
-        console.log("[DEBUG] Saving scroll position to sessionStorage:", position);
         sessionStorage.setItem("directoryScrollPosition", position.toString());
-        console.log("[DEBUG] sessionStorage now has directoryScrollPosition:", sessionStorage.getItem("directoryScrollPosition"));
       }, 100); // Debounce for 100ms
     };
 
     const handleScroll = () => {
-      updateCurrentScroll();
       debouncedSaveScrollPosition();
     };
 
@@ -92,7 +84,6 @@ function DirectoryContent() {
   useEffect(() => {
     if (!loading) {
       const savedPos = sessionStorage.getItem("directoryScrollPosition");
-      console.log("[DEBUG] Loading complete, saved scroll position:", savedPos);
 
       if (savedPos) {
         // Use requestAnimationFrame multiple times to ensure DOM is ready
@@ -259,28 +250,6 @@ function DirectoryContent() {
 
   return (
     <main>
-      {/* Debug Overlay */}
-      <div style={{
-        position: 'fixed',
-        top: '10px',
-        left: '10px',
-        backgroundColor: 'rgba(230, 57, 70, 0.95)',
-        color: 'white',
-        padding: '10px 15px',
-        borderRadius: '8px',
-        zIndex: 99999,
-        fontFamily: 'monospace',
-        fontSize: '14px',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
-      }}>
-        <div><strong>Current Scroll:</strong> {currentScrollPosition}px</div>
-        <div><strong>Saved Scroll:</strong> {sessionStorage.getItem("directoryScrollPosition") ? `${sessionStorage.getItem("directoryScrollPosition")}px` : 'None'}</div>
-        <div><strong>Students Loaded:</strong> {loading ? 'No' : 'Yes'}</div>
-        <div style={{marginTop: '5px', fontSize: '12px'}}>
-          <strong>Check Console for Logs!</strong>
-        </div>
-      </div>
-
       <SiteNav links={navLinks} />
 
       <section className="alumni-section alumni-section-directory">
