@@ -122,7 +122,31 @@ export default async function StudentProfile({ params }: { params: { slug: strin
                 {student.gpa && (
                   <div className="profile-stat">
                     <p className="profile-stat-label">GPA</p>
-                    <p className="profile-stat-value accent">{student.gpa}</p>
+                    <p className="profile-stat-value accent">
+                      {(() => {
+                        const gpa = parseFloat(student.gpa);
+                        if (isNaN(gpa)) {
+                          return student.gpa;
+                        }
+                        let classification = "";
+                        if (gpa >= 4.50 && gpa <= 5.00) {
+                          classification = "First Class";
+                        } else if (gpa >= 3.50 && gpa <= 4.49) {
+                          classification = "Second Class Upper";
+                        } else if (gpa >= 2.40 && gpa <= 3.49) {
+                          classification = "Second Class Lower";
+                        } else if (gpa >= 1.50 && gpa <= 2.39) {
+                          classification = "Third Class";
+                        } else if (gpa >= 1.00 && gpa <= 1.49) {
+                          classification = "Pass";
+                        }
+                        if (classification) {
+                          return `${classification} (${student.gpa})`;
+                        } else {
+                          return student.gpa;
+                        }
+                      })()}
+                    </p>
                   </div>
                 )}
                 {student.duration && (

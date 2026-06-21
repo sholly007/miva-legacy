@@ -22,25 +22,32 @@ export default function EditStudentPage({ params }: { params: { token: string } 
           .eq("edit_token", params.token)
           .single();
 
+        console.log("Fetched student data:", data);
+        console.log("linkedin_url value:", data?.linkedin_url);
+        console.log("twitter_url value:", data?.twitter_url);
+
         if (error || !data) {
           setStudent(null);
         } else {
           setStudent(data);
-          setForm({
-            fullName: data.full_name || "",
-            photoUrl: data.profile_photo_url || "",
-            degree: data.program || "",
-            duration: data.duration || "",
-            bio: data.bio || "",
-            linkedinUrl: data.linkedin_url || "",
-            twitterUrl: data.twitter_url || "",
-            graduationYear: data.cohort_year?.toString() || "2026",
-            gpa: data.gpa?.toString() || "",
-            achievements: (data.achievements || []).join("\n"),
-            galleryUrls: (data.gallery_urls || []).join("\n"),
-          });
+          const newForm = {
+            fullName: String(data.full_name ?? ""),
+            photoUrl: String(data.profile_photo_url ?? ""),
+            degree: String(data.program ?? ""),
+            duration: String(data.duration ?? ""),
+            bio: String(data.bio ?? ""),
+            linkedinUrl: String(data.linkedin_url ?? ""),
+            twitterUrl: String(data.twitter_url ?? ""),
+            graduationYear: data.cohort_year?.toString() ?? "2026",
+            gpa: data.gpa?.toString() ?? "",
+            achievements: (data.achievements ?? []).join("\n"),
+            galleryUrls: (data.gallery_urls ?? []).join("\n"),
+          };
+          console.log("Setting form state:", newForm);
+          setForm(newForm);
         }
       } catch (e) {
+        console.error("Error fetching student:", e);
         setStudent(null);
       } finally {
         setLoading(false);
@@ -108,6 +115,7 @@ export default function EditStudentPage({ params }: { params: { token: string } 
     );
   }
 
+  console.log("Rendering form with values:", form);
   return (
     <main className="admin-page">
       <nav className="admin-nav">
@@ -210,6 +218,7 @@ export default function EditStudentPage({ params }: { params: { token: string } 
             <label className="admin-label" htmlFor="linkedinUrl">
               LinkedIn URL
             </label>
+            <p className="admin-description">Debug: {JSON.stringify(form.linkedinUrl)}</p>
             <input
               id="linkedinUrl"
               type="url"
@@ -223,6 +232,7 @@ export default function EditStudentPage({ params }: { params: { token: string } 
             <label className="admin-label" htmlFor="twitterUrl">
               Twitter URL
             </label>
+            <p className="admin-description">Debug: {JSON.stringify(form.twitterUrl)}</p>
             <input
               id="twitterUrl"
               type="url"
