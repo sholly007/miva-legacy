@@ -86,16 +86,43 @@ function DirectoryContent() {
       const savedPos = sessionStorage.getItem("directoryScrollPosition");
 
       if (savedPos) {
-        // Use requestAnimationFrame multiple times to ensure DOM is ready
-        const restoreScroll = () => {
-          window.scrollTo(0, parseInt(savedPos, 10));
+        const targetY = parseInt(savedPos, 10);
+        let lastHeight = 0;
+        let stableFrames = 0;
+        const requiredStableFrames = 5; // Wait for 5 consecutive frames with same height
+        let animationFrameId: number;
+        
+        const checkAndRestore = () => {
+          const currentHeight = document.body.scrollHeight;
+          
+          if (currentHeight === lastHeight) {
+            stableFrames++;
+          } else {
+            stableFrames = 0;
+            lastHeight = currentHeight;
+          }
+          
+          if (stableFrames >= requiredStableFrames) {
+            // Page height is stable, restore scroll
+            window.scrollTo(0, targetY);
+            // Double-check and correct once after a short delay
+            setTimeout(() => {
+              if (window.scrollY !== targetY) {
+                window.scrollTo(0, targetY);
+              }
+            }, 100);
+          } else {
+            // Keep checking
+            animationFrameId = requestAnimationFrame(checkAndRestore);
+          }
         };
-
-        requestAnimationFrame(restoreScroll);
-        setTimeout(restoreScroll, 100);
-        setTimeout(restoreScroll, 300);
-        setTimeout(restoreScroll, 600);
-        setTimeout(restoreScroll, 1000);
+        
+        // Start checking
+        animationFrameId = requestAnimationFrame(checkAndRestore);
+        
+        return () => {
+          if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        };
       }
     }
   }, [loading]);
