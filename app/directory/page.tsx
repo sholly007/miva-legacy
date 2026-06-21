@@ -65,7 +65,6 @@ function DirectoryContent() {
       if (scrollTimeout) clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         const position = window.scrollY;
-        console.log("[Scroll] Saving position:", position);
         sessionStorage.setItem("directoryScrollPosition", position.toString());
       }, 100); // Debounce for 100ms
     };
@@ -82,13 +81,11 @@ function DirectoryContent() {
   useEffect(() => {
     if (!loading) {
       const savedPosition = sessionStorage.getItem("directoryScrollPosition");
-      console.log("[Scroll] Loading complete, restoring position:", savedPosition);
 
       if (savedPosition) {
         // Use requestAnimationFrame multiple times to ensure DOM is ready
         const restoreScroll = () => {
           window.scrollTo(0, parseInt(savedPosition, 10));
-          console.log("[Scroll] Attempting to restore to position:", savedPosition);
         };
 
         requestAnimationFrame(restoreScroll);
