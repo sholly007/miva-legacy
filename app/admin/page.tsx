@@ -13,6 +13,8 @@ const emptyForm = {
   bio: "",
   linkedinUrl: "",
   twitterUrl: "",
+  instagramUrl: "",
+  tiktokUrl: "",
   graduationYear: "2026",
   gpa: "",
   achievements: "",
@@ -238,6 +240,30 @@ export default function AdminPage() {
                   type="url"
                   value={form.twitterUrl}
                   onChange={(e) => updateField("twitterUrl", e.target.value)}
+                  className="admin-input"
+                />
+              </div>
+              <div>
+                <label className="admin-label" htmlFor="instagramUrl">
+                  Instagram URL
+                </label>
+                <input
+                  id="instagramUrl"
+                  type="url"
+                  value={form.instagramUrl}
+                  onChange={(e) => updateField("instagramUrl", e.target.value)}
+                  className="admin-input"
+                />
+              </div>
+              <div>
+                <label className="admin-label" htmlFor="tiktokUrl">
+                  TikTok URL
+                </label>
+                <input
+                  id="tiktokUrl"
+                  type="url"
+                  value={form.tiktokUrl}
+                  onChange={(e) => updateField("tiktokUrl", e.target.value)}
                   className="admin-input"
                 />
               </div>

@@ -24,6 +24,8 @@ export type StudentFormData = {
   bio: string;
   linkedinUrl: string;
   twitterUrl: string;
+  instagramUrl: string;
+  tiktokUrl: string;
   graduationYear: string;
   gpa: string;
   achievements: string;
@@ -53,6 +55,8 @@ export async function addStudent(
     bio: data.bio.trim(),
     linkedin_url: data.linkedinUrl.trim() || null,
     twitter_url: data.twitterUrl.trim() || null,
+    instagram_url: data.instagramUrl.trim() || null,
+    tiktok_url: data.tiktokUrl.trim() || null,
     cohort_year: parseInt(data.graduationYear, 10),
     gpa: data.gpa.trim() || null,
     achievements,
@@ -108,6 +112,8 @@ export async function updateStudent(
       bio: data.bio.trim(),
       linkedin_url: data.linkedinUrl.trim() || null,
       twitter_url: data.twitterUrl.trim() || null,
+      instagram_url: data.instagramUrl?.trim() || null,
+      tiktok_url: data.tiktokUrl?.trim() || null,
       cohort_year: parseInt(data.graduationYear, 10),
       gpa: data.gpa.trim() || null,
       achievements,

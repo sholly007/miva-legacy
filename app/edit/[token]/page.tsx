@@ -35,6 +35,8 @@ export default function EditStudentPage({ params }: { params: { token: string } 
             bio: String(data.bio ?? ""),
             linkedinUrl: String(data.linkedin_url ?? ""),
             twitterUrl: String(data.twitter_url ?? ""),
+            instagramUrl: String(data.instagram_url ?? ""),
+            tiktokUrl: String(data.tiktok_url ?? ""),
             graduationYear: data.cohort_year?.toString() ?? "2026",
             gpa: data.gpa?.toString() ?? "",
             achievements: (data.achievements ?? []).join("\n"),
@@ -255,17 +257,41 @@ export default function EditStudentPage({ params }: { params: { token: string } 
           </div>
 
           <div>
-            <label className="admin-label" htmlFor="twitterUrl">
-              Twitter URL
-            </label>
-            <input
-              id="twitterUrl"
-              type="url"
-              value={form.twitterUrl}
-              onChange={(e) => updateField("twitterUrl", e.target.value)}
-              className="admin-input"
-            />
-          </div>
+                <label className="admin-label" htmlFor="twitterUrl">
+                  Twitter URL
+                </label>
+                <input
+                  id="twitterUrl"
+                  type="url"
+                  value={form.twitterUrl}
+                  onChange={(e) => updateField("twitterUrl", e.target.value)}
+                  className="admin-input"
+                />
+              </div>
+              <div>
+                <label className="admin-label" htmlFor="instagramUrl">
+                  Instagram URL
+                </label>
+                <input
+                  id="instagramUrl"
+                  type="url"
+                  value={form.instagramUrl}
+                  onChange={(e) => updateField("instagramUrl", e.target.value)}
+                  className="admin-input"
+                />
+              </div>
+              <div>
+                <label className="admin-label" htmlFor="tiktokUrl">
+                  TikTok URL
+                </label>
+                <input
+                  id="tiktokUrl"
+                  type="url"
+                  value={form.tiktokUrl}
+                  onChange={(e) => updateField("tiktokUrl", e.target.value)}
+                  className="admin-input"
+                />
+              </div>
 
           <div className="admin-form-grid">
             <div>
