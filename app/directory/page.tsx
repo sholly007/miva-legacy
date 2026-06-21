@@ -56,6 +56,37 @@ function DirectoryContent() {
     fetchStudents();
   }, []);
 
+  // Save scroll position when navigating away
+  useEffect(() => {
+    const saveScrollPosition = () => {
+      sessionStorage.setItem("directoryScrollPosition", window.scrollY.toString());
+    };
+
+    // Save before unload
+    window.addEventListener("beforeunload", saveScrollPosition);
+
+    // Save on any navigation (using pagehide)
+    window.addEventListener("pagehide", saveScrollPosition);
+
+    return () => {
+      window.removeEventListener("beforeunload", saveScrollPosition);
+      window.removeEventListener("pagehide", saveScrollPosition);
+    };
+  }, []);
+
+  // Restore scroll position after loading
+  useEffect(() => {
+    if (!loading) {
+      const savedPosition = sessionStorage.getItem("directoryScrollPosition");
+      if (savedPosition) {
+        // Use requestAnimationFrame to ensure the DOM is ready
+        requestAnimationFrame(() => {
+          window.scrollTo(0, parseInt(savedPosition, 10));
+        });
+      }
+    }
+  }, [loading]);
+
   // Define valid degree levels
   const VALID_DEGREE_LEVELS = {
     BACHELORS: "Bachelor's (BSc/BA/BEng/LLB/etc.)",
