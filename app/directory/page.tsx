@@ -36,7 +36,6 @@ function DirectoryContent() {
   const [selectedCohort, setSelectedCohort] = useState("");
   const [selectedDegreeLevel, setSelectedDegreeLevel] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [savedScrollPosition, setSavedScrollPosition] = useState<string | null>(null);
   const [currentScrollPosition, setCurrentScrollPosition] = useState(0);
   const studentsPerPage = 12;
 
@@ -70,7 +69,9 @@ function DirectoryContent() {
       if (scrollTimeout) clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         const position = window.scrollY;
+        console.log("[DEBUG] Saving scroll position to sessionStorage:", position);
         sessionStorage.setItem("directoryScrollPosition", position.toString());
+        console.log("[DEBUG] sessionStorage now has directoryScrollPosition:", sessionStorage.getItem("directoryScrollPosition"));
       }, 100); // Debounce for 100ms
     };
 
@@ -91,7 +92,7 @@ function DirectoryContent() {
   useEffect(() => {
     if (!loading) {
       const savedPos = sessionStorage.getItem("directoryScrollPosition");
-      setSavedScrollPosition(savedPos);
+      console.log("[DEBUG] Loading complete, saved scroll position:", savedPos);
 
       if (savedPos) {
         // Use requestAnimationFrame multiple times to ensure DOM is ready
@@ -273,8 +274,11 @@ function DirectoryContent() {
         boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
       }}>
         <div><strong>Current Scroll:</strong> {currentScrollPosition}px</div>
-        <div><strong>Saved Scroll:</strong> {savedScrollPosition ? `${savedScrollPosition}px` : 'None'}</div>
+        <div><strong>Saved Scroll:</strong> {sessionStorage.getItem("directoryScrollPosition") ? `${sessionStorage.getItem("directoryScrollPosition")}px` : 'None'}</div>
         <div><strong>Students Loaded:</strong> {loading ? 'No' : 'Yes'}</div>
+        <div style={{marginTop: '5px', fontSize: '12px'}}>
+          <strong>Check Console for Logs!</strong>
+        </div>
       </div>
 
       <SiteNav links={navLinks} />
