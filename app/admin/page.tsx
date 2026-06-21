@@ -8,6 +8,7 @@ const emptyForm = {
   fullName: "",
   photoUrl: "",
   degree: "",
+  degreeLevel: "",
   duration: "",
   bio: "",
   linkedinUrl: "",
@@ -150,6 +151,24 @@ export default function AdminPage() {
                   className="admin-input"
                   required
                 />
+              </div>
+
+              <div>
+                <label className="admin-label" htmlFor="degreeLevel">
+                  Degree Level
+                </label>
+                <select
+                  id="degreeLevel"
+                  value={form.degreeLevel}
+                  onChange={(e) => updateField("degreeLevel", e.target.value)}
+                  className="admin-input"
+                >
+                  <option value="">Select Degree Level</option>
+                  <option value="Bachelor's">Bachelor's</option>
+                  <option value="Master's">Master's</option>
+                  <option value="PhD">PhD</option>
+                  <option value="Postgraduate Diploma">Postgraduate Diploma</option>
+                </select>
               </div>
 
               <div>

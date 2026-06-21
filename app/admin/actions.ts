@@ -19,6 +19,7 @@ export type StudentFormData = {
   fullName: string;
   photoUrl: string;
   degree: string;
+  degreeLevel: string;
   duration: string;
   bio: string;
   linkedinUrl: string;
@@ -46,6 +47,7 @@ export async function addStudent(
     slug: slugify(data.fullName),
     profile_photo_url: data.photoUrl.trim(),
     program: data.degree.trim(),
+    degree_level: data.degreeLevel.trim() || null,
     duration: data.duration.trim(),
     bio: data.bio.trim(),
     linkedin_url: data.linkedinUrl.trim() || null,
@@ -99,6 +101,7 @@ export async function updateStudent(
       slug: slugify(data.fullName),
       profile_photo_url: data.photoUrl.trim(),
       program: data.degree.trim(),
+      degree_level: data.degreeLevel?.trim() || null,
       duration: data.duration.trim(),
       bio: data.bio.trim(),
       linkedin_url: data.linkedinUrl.trim() || null,

@@ -22,10 +22,6 @@ export default function EditStudentPage({ params }: { params: { token: string } 
           .eq("edit_token", params.token)
           .single();
 
-        console.log("Fetched student data:", data);
-        console.log("linkedin_url value:", data?.linkedin_url);
-        console.log("twitter_url value:", data?.twitter_url);
-
         if (error || !data) {
           setStudent(null);
         } else {
@@ -34,6 +30,7 @@ export default function EditStudentPage({ params }: { params: { token: string } 
             fullName: String(data.full_name ?? ""),
             photoUrl: String(data.profile_photo_url ?? ""),
             degree: String(data.program ?? ""),
+            degreeLevel: String(data.degree_level ?? ""),
             duration: String(data.duration ?? ""),
             bio: String(data.bio ?? ""),
             linkedinUrl: String(data.linkedin_url ?? ""),
@@ -43,11 +40,9 @@ export default function EditStudentPage({ params }: { params: { token: string } 
             achievements: (data.achievements ?? []).join("\n"),
             galleryUrls: (data.gallery_urls ?? []).join("\n"),
           };
-          console.log("Setting form state:", newForm);
           setForm(newForm);
         }
       } catch (e) {
-        console.error("Error fetching student:", e);
         setStudent(null);
       } finally {
         setLoading(false);
@@ -115,7 +110,6 @@ export default function EditStudentPage({ params }: { params: { token: string } 
     );
   }
 
-  console.log("Rendering form with values:", form);
   return (
     <main className="admin-page">
       <nav className="admin-nav">
@@ -185,6 +179,24 @@ export default function EditStudentPage({ params }: { params: { token: string } 
           </div>
 
           <div>
+            <label className="admin-label" htmlFor="degreeLevel">
+              Degree Level
+            </label>
+            <select
+              id="degreeLevel"
+              value={form.degreeLevel}
+              onChange={(e) => updateField("degreeLevel", e.target.value)}
+              className="admin-input"
+            >
+              <option value="">Select Degree Level</option>
+              <option value="Bachelor's">Bachelor's</option>
+              <option value="Master's">Master's</option>
+              <option value="PhD">PhD</option>
+              <option value="Postgraduate Diploma">Postgraduate Diploma</option>
+            </select>
+          </div>
+
+          <div>
             <label className="admin-label" htmlFor="duration">
               Duration
             </label>
@@ -218,7 +230,6 @@ export default function EditStudentPage({ params }: { params: { token: string } 
             <label className="admin-label" htmlFor="linkedinUrl">
               LinkedIn URL
             </label>
-            <p className="admin-description">Debug: {JSON.stringify(form.linkedinUrl)}</p>
             <input
               id="linkedinUrl"
               type="url"
@@ -232,7 +243,6 @@ export default function EditStudentPage({ params }: { params: { token: string } 
             <label className="admin-label" htmlFor="twitterUrl">
               Twitter URL
             </label>
-            <p className="admin-description">Debug: {JSON.stringify(form.twitterUrl)}</p>
             <input
               id="twitterUrl"
               type="url"

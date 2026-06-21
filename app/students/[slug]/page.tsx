@@ -128,18 +128,53 @@ export default async function StudentProfile({ params }: { params: { slug: strin
                         if (isNaN(gpa)) {
                           return student.gpa;
                         }
-                        let classification = "";
-                        if (gpa >= 4.50 && gpa <= 5.00) {
-                          classification = "First Class";
-                        } else if (gpa >= 3.50 && gpa <= 4.49) {
-                          classification = "Second Class Upper";
-                        } else if (gpa >= 2.40 && gpa <= 3.49) {
-                          classification = "Second Class Lower";
-                        } else if (gpa >= 1.50 && gpa <= 2.39) {
-                          classification = "Third Class";
-                        } else if (gpa >= 1.00 && gpa <= 1.49) {
-                          classification = "Pass";
+
+                        // Determine degree level
+                        let degreeLevel = student.degree_level;
+                        if (!degreeLevel) {
+                          // Fallback: infer from program field
+                          const programLower = (student.program || "").toLowerCase();
+                          if (programLower.includes("phd") || programLower.includes("doctor")) {
+                            degreeLevel = "PhD";
+                          } else if (programLower.includes("msc") || programLower.includes("ma") || programLower.includes("mba") || programLower.includes("master")) {
+                            degreeLevel = "Master's";
+                          } else if (programLower.includes("postgraduate diploma") || programLower.includes("pgd")) {
+                            degreeLevel = "Postgraduate Diploma";
+                          } else {
+                            // Default to Bachelor's if can't determine
+                            degreeLevel = "Bachelor's";
+                          }
                         }
+
+                        let classification = "";
+
+                        if (degreeLevel === "PhD") {
+                          // No classification for PhD, just show GPA
+                          return student.gpa;
+                        } else if (degreeLevel === "Master's" || degreeLevel === "Postgraduate Diploma") {
+                          // Master's/PGD classification
+                          if (gpa >= 4.50 && gpa <= 5.00) {
+                            classification = "Distinction";
+                          } else if (gpa >= 3.50 && gpa <= 4.49) {
+                            classification = "Merit";
+                          } else if (gpa >= 3.00 && gpa <= 3.49) {
+                            classification = "Pass";
+                          }
+                        } else {
+                          // Bachelor's classification (default)
+                          if (gpa >= 4.50 && gpa <= 5.00) {
+                            classification = "First Class";
+                          } else if (gpa >= 3.50 && gpa <= 4.49) {
+                            classification = "Second Class Upper";
+                          } else if (gpa >= 2.40 && gpa <= 3.49) {
+                            classification = "Second Class Lower";
+                          } else if (gpa >= 1.50 && gpa <= 2.39) {
+                            classification = "Third Class";
+                          } else if (gpa >= 1.00 && gpa <= 1.49) {
+                            classification = "Pass";
+                          }
+                        }
+
                         if (classification) {
                           return `${classification} (${student.gpa})`;
                         } else {
