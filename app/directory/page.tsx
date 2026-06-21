@@ -56,10 +56,18 @@ function DirectoryContent() {
     fetchStudents();
   }, []);
 
+  // Define valid degree levels
+  const VALID_DEGREE_LEVELS = {
+    BACHELORS: "Bachelor's (BSc/BA/BEng/LLB/etc.)",
+    MASTERS: "Master's (MSc/MA/MBA/etc.)",
+    PHD: "PhD",
+    POSTGRAD_DIPLOMA: "Postgraduate Diploma"
+  };
+
   // Handle URL parameter for initial filter
   useEffect(() => {
     if (levelParam === "undergraduate") {
-      setSelectedDegreeLevel("Bachelor's");
+      setSelectedDegreeLevel("undergraduate");
     } else if (levelParam === "postgraduate") {
       setSelectedDegreeLevel("postgraduate");
     } else {
@@ -106,16 +114,20 @@ function DirectoryContent() {
       const matchesCohort = selectedCohort === "" || String(student.cohort_year) === selectedCohort;
       
       let matchesDegreeLevel = true;
-      if (selectedDegreeLevel === "postgraduate") {
-        // Postgraduate includes Master's, PhD, Postgraduate Diploma
-        matchesDegreeLevel = student.degree_level !== "Bachelor's";
+      if (selectedDegreeLevel === "undergraduate") {
+        matchesDegreeLevel = student.degree_level === VALID_DEGREE_LEVELS.BACHELORS;
+      } else if (selectedDegreeLevel === "postgraduate") {
+        matchesDegreeLevel = 
+          student.degree_level === VALID_DEGREE_LEVELS.MASTERS ||
+          student.degree_level === VALID_DEGREE_LEVELS.PHD ||
+          student.degree_level === VALID_DEGREE_LEVELS.POSTGRAD_DIPLOMA;
       } else if (selectedDegreeLevel) {
         matchesDegreeLevel = student.degree_level === selectedDegreeLevel;
       }
 
       return matchesSearch && matchesProgram && matchesCohort && matchesDegreeLevel;
     });
-  }, [students, debouncedSearch, selectedProgram, selectedCohort, selectedDegreeLevel]);
+  }, [students, debouncedSearch, selectedProgram, selectedCohort, selectedDegreeLevel, VALID_DEGREE_LEVELS]);
 
   // Determine dynamic heading
   const getHeading = () => {
