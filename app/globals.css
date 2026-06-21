@@ -1626,11 +1626,11 @@ h1, h2, h3, h4 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.6em;
-  height: 2.6em;
-  vertical-align: middle;
-  animation: spin 4s linear infinite;
-  margin: 0 0.1em;
+  width: 0.9em;
+  height: 0.9em;
+  vertical-align: baseline;
+  animation: spin 3.5s linear infinite;
+  margin-left: 0.15em;
 }
 
 @keyframes spin {
