@@ -1617,23 +1617,28 @@ h1, h2, h3, h4 {
 }
 
 /* Accessibility: respect reduced motion */
+.directory-word-wrap {
+  display: inline-block;
+  white-space: nowrap;
+}
+
 .sparkle-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.3em;
-  height: 1.3em;
+  width: 2.6em;
+  height: 2.6em;
   vertical-align: middle;
-  animation: sparkle 2.5s ease-in-out infinite;
+  animation: spin 4s linear infinite;
   margin: 0 0.1em;
 }
 
-@keyframes sparkle {
-  0%, 100% {
-    transform: scale(0.9) rotate(-15deg);
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
   }
-  50% {
-    transform: scale(1.1) rotate(15deg);
+  to {
+    transform: rotate(360deg);
   }
 }
 

@@ -23,12 +23,14 @@ export default function Home() {
             </span>
             <h1 className="hub-title animate-fade-up animate-delay-2">
               Pioneer Class Alumni{" "}
-              <span className="sparkle-icon" aria-hidden="true">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="#E63946">
-                  <path d="M12 0l2.5 5.5L20 8l-5.5 2.5L12 16l-2.5-5.5L4 8l5.5-2.5L12 0z" />
-                </svg>
+              <span className="directory-word-wrap">
+                <span className="sparkle-icon" aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#E63946">
+                    <path d="M12 0l2.5 5.5L20 8l-5.5 2.5L12 16l-2.5-5.5L4 8l5.5-2.5L12 0z" />
+                  </svg>
+                </span>
+                Directory
               </span>
-              Directory
             </h1>
             <p className="hub-subtitle animate-fade-up animate-delay-3">
               Connect with the graduates who built the foundation of Miva Open University. Browse profiles, explore achievements, and celebrate the Class of 2026.
