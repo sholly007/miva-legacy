@@ -60,14 +60,13 @@ function DirectoryContent() {
 
   // Save scroll position on every scroll (debounced)
   useEffect(() => {
-    let debouncedSaveScrollPosition;
-    let scrollTimeout;
+    let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
 
     const updateCurrentScroll = () => {
       setCurrentScrollPosition(window.scrollY);
     };
 
-    debouncedSaveScrollPosition = () => {
+    const debouncedSaveScrollPosition = () => {
       if (scrollTimeout) clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         const position = window.scrollY;
