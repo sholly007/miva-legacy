@@ -56,21 +56,25 @@ function DirectoryContent() {
     fetchStudents();
   }, []);
 
-  // Save scroll position when navigating away
+  // Save scroll position on every scroll (debounced)
   useEffect(() => {
-    const saveScrollPosition = () => {
-      sessionStorage.setItem("directoryScrollPosition", window.scrollY.toString());
+    let debouncedSaveScrollPosition;
+    let scrollTimeout;
+
+    debouncedSaveScrollPosition = () => {
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        const position = window.scrollY;
+        console.log("[Scroll] Saving position:", position);
+        sessionStorage.setItem("directoryScrollPosition", position.toString());
+      }, 100); // Debounce for 100ms
     };
 
-    // Save before unload
-    window.addEventListener("beforeunload", saveScrollPosition);
-
-    // Save on any navigation (using pagehide)
-    window.addEventListener("pagehide", saveScrollPosition);
+    window.addEventListener("scroll", debouncedSaveScrollPosition);
 
     return () => {
-      window.removeEventListener("beforeunload", saveScrollPosition);
-      window.removeEventListener("pagehide", saveScrollPosition);
+      window.removeEventListener("scroll", debouncedSaveScrollPosition);
+      if (scrollTimeout) clearTimeout(scrollTimeout);
     };
   }, []);
 
@@ -78,11 +82,18 @@ function DirectoryContent() {
   useEffect(() => {
     if (!loading) {
       const savedPosition = sessionStorage.getItem("directoryScrollPosition");
+      console.log("[Scroll] Loading complete, restoring position:", savedPosition);
+
       if (savedPosition) {
-        // Use requestAnimationFrame to ensure the DOM is ready
-        requestAnimationFrame(() => {
+        // Use requestAnimationFrame multiple times to ensure DOM is ready
+        const restoreScroll = () => {
           window.scrollTo(0, parseInt(savedPosition, 10));
-        });
+          console.log("[Scroll] Attempting to restore to position:", savedPosition);
+        };
+
+        requestAnimationFrame(restoreScroll);
+        setTimeout(restoreScroll, 100);
+        setTimeout(restoreScroll, 300);
       }
     }
   }, [loading]);
