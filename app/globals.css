@@ -1272,8 +1272,9 @@ h1, h2, h3, h4 {
 
 .gallery-grid img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 5 / 4;
   object-fit: cover;
+  object-position: top center;
   border-radius: 8px;
   border: 1px solid var(--soft-blue);
 }
