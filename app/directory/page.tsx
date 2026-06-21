@@ -56,76 +56,7 @@ function DirectoryContent() {
     fetchStudents();
   }, []);
 
-  // Save scroll position on every scroll (debounced)
-  useEffect(() => {
-    let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
 
-    const debouncedSaveScrollPosition = () => {
-      if (scrollTimeout) clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        const position = window.scrollY;
-        sessionStorage.setItem("directoryScrollPosition", position.toString());
-      }, 100); // Debounce for 100ms
-    };
-
-    const handleScroll = () => {
-      debouncedSaveScrollPosition();
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (scrollTimeout) clearTimeout(scrollTimeout);
-    };
-  }, []);
-
-  // Restore scroll position after loading
-  useEffect(() => {
-    if (!loading) {
-      const savedPos = sessionStorage.getItem("directoryScrollPosition");
-
-      if (savedPos) {
-        const targetY = parseInt(savedPos, 10);
-        let lastHeight = 0;
-        let stableFrames = 0;
-        const requiredStableFrames = 5; // Wait for 5 consecutive frames with same height
-        let animationFrameId: number;
-        
-        const checkAndRestore = () => {
-          const currentHeight = document.body.scrollHeight;
-          
-          if (currentHeight === lastHeight) {
-            stableFrames++;
-          } else {
-            stableFrames = 0;
-            lastHeight = currentHeight;
-          }
-          
-          if (stableFrames >= requiredStableFrames) {
-            // Page height is stable, restore scroll
-            window.scrollTo(0, targetY);
-            // Double-check and correct once after a short delay
-            setTimeout(() => {
-              if (window.scrollY !== targetY) {
-                window.scrollTo(0, targetY);
-              }
-            }, 100);
-          } else {
-            // Keep checking
-            animationFrameId = requestAnimationFrame(checkAndRestore);
-          }
-        };
-        
-        // Start checking
-        animationFrameId = requestAnimationFrame(checkAndRestore);
-        
-        return () => {
-          if (animationFrameId) cancelAnimationFrame(animationFrameId);
-        };
-      }
-    }
-  }, [loading]);
 
   // Define valid degree levels
   const VALID_DEGREE_LEVELS = {
@@ -370,7 +301,7 @@ function DirectoryContent() {
                       <span className="alumni-card-cohort">Class of {student.cohort_year}</span>
                     )}
                     <p className="alumni-card-bio">{bioPreview(student.bio)}</p>
-                    <Link href={`/students/${student.slug}`} scroll={false} className="btn-card">
+                    <Link href={`/students/${student.slug}`} className="btn-card">
                       View Profile
                     </Link>
                   </article>
