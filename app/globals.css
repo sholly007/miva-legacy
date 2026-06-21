@@ -1617,6 +1617,26 @@ h1, h2, h3, h4 {
 }
 
 /* Accessibility: respect reduced motion */
+.sparkle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.3em;
+  height: 1.3em;
+  vertical-align: middle;
+  animation: sparkle 2.5s ease-in-out infinite;
+  margin: 0 0.1em;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    transform: scale(0.9) rotate(-15deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(15deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -1645,6 +1665,10 @@ h1, h2, h3, h4 {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  .sparkle-icon {
+    animation: none;
   }
 
   .btn-primary,
