@@ -25,8 +25,9 @@ export default function OurStoryPage() {
     <main>
       <SiteNav
         links={[
-          { href: "/directory", label: "Meet the Class" },
           { href: "/", label: "Home" },
+          { href: "/directory?level=undergraduate", label: "Undergraduate Alumni" },
+          { href: "/directory?level=postgraduate", label: "Postgraduate Alumni" },
         ]}
       />
 

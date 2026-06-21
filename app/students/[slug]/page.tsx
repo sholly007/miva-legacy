@@ -51,7 +51,9 @@ export default async function StudentProfile({ params }: { params: { slug: strin
       <SiteNav
         badge="Member Verified"
         links={[
-          { href: "/directory", label: "Directory" },
+          { href: "/", label: "Home" },
+          { href: "/directory?level=undergraduate", label: "Undergraduate Alumni" },
+          { href: "/directory?level=postgraduate", label: "Postgraduate Alumni" },
           { href: "/our-story", label: "Our Story" },
         ]}
       />

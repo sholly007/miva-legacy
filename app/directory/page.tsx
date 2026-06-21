@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import { supabase } from "../../lib/supabase";
 import { SiteNav } from "../../components/SiteNav";
 import { SiteFooter } from "../../components/SiteFooter";
@@ -14,6 +15,7 @@ type Student = {
   profile_photo_url: string | null;
   bio: string | null;
   cohort_year: string | number | null;
+  degree_level: string | null;
 };
 
 function bioPreview(bio: string | null, maxLength = 120) {
@@ -23,12 +25,16 @@ function bioPreview(bio: string | null, maxLength = 120) {
 }
 
 export default function Directory() {
+  const searchParams = useSearchParams();
+  const levelParam = searchParams.get("level");
+
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [selectedProgram, setSelectedProgram] = useState("");
   const [selectedCohort, setSelectedCohort] = useState("");
+  const [selectedDegreeLevel, setSelectedDegreeLevel] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const studentsPerPage = 12;
 
@@ -37,7 +43,7 @@ export default function Directory() {
     async function fetchStudents() {
       const { data } = await supabase
         .from("students")
-        .select("slug, full_name, program, profile_photo_url, bio, cohort_year")
+        .select("slug, full_name, program, profile_photo_url, bio, cohort_year, degree_level")
         .eq("is_published", true)
         .order("created_at", { ascending: false });
 
@@ -49,6 +55,17 @@ export default function Directory() {
 
     fetchStudents();
   }, []);
+
+  // Handle URL parameter for initial filter
+  useEffect(() => {
+    if (levelParam === "undergraduate") {
+      setSelectedDegreeLevel("Bachelor's");
+    } else if (levelParam === "postgraduate") {
+      setSelectedDegreeLevel("postgraduate");
+    } else {
+      setSelectedDegreeLevel("");
+    }
+  }, [levelParam]);
 
   // Debounce search input
   useEffect(() => {
@@ -62,9 +79,9 @@ export default function Directory() {
   // Reset pagination when search/filter changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [debouncedSearch, selectedProgram, selectedCohort]);
+  }, [debouncedSearch, selectedProgram, selectedCohort, selectedDegreeLevel]);
 
-  // Get unique programs and cohorts for filters
+  // Get unique programs, cohorts, and degree levels for filters
   const programs = useMemo(() => {
     const uniquePrograms = [...new Set(students.map((s) => s.program).filter(Boolean))];
     return uniquePrograms.sort();
@@ -75,6 +92,11 @@ export default function Directory() {
     return uniqueCohorts.sort((a, b) => (Number(a) || 0) - (Number(b) || 0));
   }, [students]);
 
+  const degreeLevels = useMemo(() => {
+    const uniqueLevels = [...new Set(students.map((s) => s.degree_level).filter(Boolean))];
+    return uniqueLevels.sort();
+  }, [students]);
+
   // Filter students based on search and filters
   const filteredStudents = useMemo(() => {
     return students.filter((student) => {
@@ -82,10 +104,25 @@ export default function Directory() {
         student.full_name.toLowerCase().includes(debouncedSearch.toLowerCase());
       const matchesProgram = selectedProgram === "" || student.program === selectedProgram;
       const matchesCohort = selectedCohort === "" || String(student.cohort_year) === selectedCohort;
+      
+      let matchesDegreeLevel = true;
+      if (selectedDegreeLevel === "postgraduate") {
+        // Postgraduate includes Master's, PhD, Postgraduate Diploma
+        matchesDegreeLevel = student.degree_level !== "Bachelor's";
+      } else if (selectedDegreeLevel) {
+        matchesDegreeLevel = student.degree_level === selectedDegreeLevel;
+      }
 
-      return matchesSearch && matchesProgram && matchesCohort;
+      return matchesSearch && matchesProgram && matchesCohort && matchesDegreeLevel;
     });
-  }, [students, debouncedSearch, selectedProgram, selectedCohort]);
+  }, [students, debouncedSearch, selectedProgram, selectedCohort, selectedDegreeLevel]);
+
+  // Determine dynamic heading
+  const getHeading = () => {
+    if (levelParam === "undergraduate") return "Undergraduate Alumni";
+    if (levelParam === "postgraduate") return "Postgraduate Alumni";
+    return "Meet the Graduates";
+  };
 
   // Pagination
   const totalPages = Math.ceil(filteredStudents.length / studentsPerPage);
@@ -123,20 +160,29 @@ export default function Directory() {
     return pages;
   };
 
+  // Clear all filters
+  const clearFilters = () => {
+    setSearchQuery("");
+    setSelectedProgram("");
+    setSelectedCohort("");
+    setSelectedDegreeLevel("");
+  };
+
+  const navLinks = [
+    { href: "/directory?level=undergraduate", label: "Undergraduate Alumni" },
+    { href: "/directory?level=postgraduate", label: "Postgraduate Alumni" },
+    { href: "/our-story", label: "Our Story" },
+  ];
+
   if (loading) {
     return (
       <main>
-        <SiteNav
-          links={[
-            { href: "/directory", label: "Meet the Class" },
-            { href: "/our-story", label: "Our Story" },
-          ]}
-        />
+        <SiteNav links={navLinks} />
         <section className="alumni-section alumni-section-directory">
           <div className="container">
             <div className="section-header">
               <p className="section-label">Alumni Directory</p>
-              <h2 className="section-title">Meet the Graduates</h2>
+              <h2 className="section-title">{getHeading()}</h2>
             </div>
             <p>Loading...</p>
           </div>
@@ -148,18 +194,13 @@ export default function Directory() {
 
   return (
     <main>
-      <SiteNav
-        links={[
-          { href: "/directory", label: "Meet the Class" },
-          { href: "/our-story", label: "Our Story" },
-        ]}
-      />
+      <SiteNav links={navLinks} />
 
       <section className="alumni-section alumni-section-directory">
         <div className="container">
           <div className="section-header animate-fade-up animate-delay-1">
             <p className="section-label">Alumni Directory</p>
-            <h2 className="section-title">Meet the Graduates</h2>
+            <h2 className="section-title">{getHeading()}</h2>
           </div>
 
           {/* Search and Filters */}
@@ -198,6 +239,23 @@ export default function Directory() {
                   <option key={cohort || ""} value={cohort || ""}>
                     Class of {cohort}
                   </option>
+                ))}
+              </select>
+
+              <select
+                value={selectedDegreeLevel}
+                onChange={(e) => setSelectedDegreeLevel(e.target.value)}
+                className="filter-select"
+              >
+                <option value="">All Degree Levels</option>
+                <option value="Bachelor's">Undergraduate</option>
+                <option value="postgraduate">Postgraduate</option>
+                {degreeLevels.map((level) => (
+                  level !== "Bachelor's" && (
+                    <option key={level} value={level}>
+                      {level}
+                    </option>
+                  )
                 ))}
               </select>
             </div>
@@ -239,14 +297,7 @@ export default function Directory() {
           ) : (
             <div className="empty-state animate-fade-up animate-delay-3">
               <p>No graduates found matching your search.</p>
-              <button
-                onClick={() => {
-                  setSearchQuery("");
-                  setSelectedProgram("");
-                  setSelectedCohort("");
-                }}
-                className="btn-secondary"
-              >
+              <button onClick={clearFilters} className="btn-secondary">
                 Clear Filters
               </button>
             </div>

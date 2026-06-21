@@ -7,7 +7,8 @@ export default function Home() {
     <main>
       <SiteNav
         links={[
-          { href: "/directory", label: "Meet the Class" },
+          { href: "/directory?level=undergraduate", label: "Undergraduate Alumni" },
+          { href: "/directory?level=postgraduate", label: "Postgraduate Alumni" },
           { href: "/our-story", label: "Our Story" },
         ]}
       />
