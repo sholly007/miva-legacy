@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "../../lib/supabase";
 import { SiteNav } from "../../components/SiteNav";
@@ -24,7 +24,7 @@ function bioPreview(bio: string | null, maxLength = 120) {
   return `${bio.slice(0, maxLength).trim()}…`;
 }
 
-export default function Directory() {
+function DirectoryContent() {
   const searchParams = useSearchParams();
   const levelParam = searchParams.get("level");
 
@@ -88,12 +88,12 @@ export default function Directory() {
   }, [students]);
 
   const cohorts = useMemo(() => {
-    const uniqueCohorts = [...new Set(students.map((s) => s.cohort_year).filter(Boolean))];
+    const uniqueCohorts = [...new Set(students.map((s) => s.cohort_year).filter((year): year is string | number => Boolean(year)))];
     return uniqueCohorts.sort((a, b) => (Number(a) || 0) - (Number(b) || 0));
   }, [students]);
 
   const degreeLevels = useMemo(() => {
-    const uniqueLevels = [...new Set(students.map((s) => s.degree_level).filter(Boolean))];
+    const uniqueLevels = [...new Set(students.map((s) => s.degree_level).filter((level): level is string => Boolean(level)))];
     return uniqueLevels.sort();
   }, [students]);
 
@@ -360,5 +360,13 @@ export default function Directory() {
 
       <SiteFooter />
     </main>
+  );
+}
+
+export default function Directory() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DirectoryContent />
+    </Suspense>
   );
 }
