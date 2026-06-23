@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useMemo, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useEffect, useMemo, useRef, Suspense } from "react";
+import { useSearchParams, usePathname } from "next/navigation";
 import { supabase } from "../../lib/supabase";
 import { SiteNav } from "../../components/SiteNav";
 import { SiteFooter } from "../../components/SiteFooter";
@@ -25,7 +25,11 @@ function bioPreview(bio: string | null, maxLength = 120) {
 }
 
 function DirectoryContent() {
+  const mountId = Math.random().toString(36).substring(7);
+  console.log(`[Directory] Component rendering - mountId: ${mountId}, timestamp: ${Date.now()}`);
+
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const levelParam = searchParams.get("level");
 
   const [students, setStudents] = useState<Student[]>([]);
@@ -37,20 +41,34 @@ function DirectoryContent() {
   const [selectedDegreeLevel, setSelectedDegreeLevel] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const studentsPerPage = 12;
+  const savedScrollPositionRef = useRef(0);
 
   // Fetch students from Supabase
   useEffect(() => {
     async function fetchStudents() {
-      const { data } = await supabase
-        .from("students")
-        .select("slug, full_name, program, profile_photo_url, bio, cohort_year, degree_level")
-        .eq("is_published", true)
-        .order("created_at", { ascending: false });
+      try {
+        console.log("Fetching students from Supabase...");
+        const { data, error } = await supabase
+          .from("students")
+          .select("slug, full_name, program, profile_photo_url, bio, cohort_year, degree_level")
+          .eq("is_published", true)
+          .order("created_at", { ascending: false });
 
-      if (data) {
-        setStudents(data);
+        if (error) {
+          console.error("Supabase error:", error);
+          setLoading(false);
+          return;
+        }
+
+        console.log("Fetched students:", data?.length || 0);
+        if (data) {
+          setStudents(data);
+        }
+      } catch (err) {
+        console.error("Fetch error:", err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
 
     fetchStudents();
@@ -88,8 +106,30 @@ function DirectoryContent() {
 
   // Reset pagination when search/filter changes
   useEffect(() => {
+    console.log(`[Directory] Pagination reset triggered - search: ${debouncedSearch}, program: ${selectedProgram}, cohort: ${selectedCohort}, level: ${selectedDegreeLevel}`);
     setCurrentPage(1);
   }, [debouncedSearch, selectedProgram, selectedCohort, selectedDegreeLevel]);
+
+  // Save scroll position when navigating to modal, restore when returning
+  useEffect(() => {
+    console.log(`[Directory] Pathname changed to: ${pathname}`);
+    // Check if pathname changed to modal route
+    if (pathname.startsWith('/directory/students/')) {
+      // Save scroll position before modal opens
+      savedScrollPositionRef.current = window.scrollY;
+      console.log(`[Directory] Saved scroll position: ${savedScrollPositionRef.current}`);
+    } else if (pathname === '/directory') {
+      // Restore scroll position when returning to directory
+      if (savedScrollPositionRef.current > 0) {
+        // Use setTimeout to ensure DOM is ready after Next.js scroll reset
+        setTimeout(() => {
+          console.log(`[Directory] Restoring scroll position to: ${savedScrollPositionRef.current}`);
+          window.scrollTo(0, savedScrollPositionRef.current);
+          savedScrollPositionRef.current = 0;
+        }, 0);
+      }
+    }
+  }, [pathname]);
 
   // Get unique programs, cohorts, and degree levels for filters
   const programs = useMemo(() => {
@@ -275,6 +315,40 @@ function DirectoryContent() {
             </div>
           </div>
 
+          {/* Debug: Show student degree levels */}
+          <div className="animate-fade-up animate-delay-3" style={{ background: "#fff8f0", border: "2px dashed #e63946", padding: "16px", borderRadius: "8px", marginBottom: "20px" }}>
+            <h3 style={{ color: "#e63946", margin: "0 0 12px 0" }}>🔍 DEBUG: Student Degree Levels</h3>
+            <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+              <table style={{ width: "100%", textAlign: "left", fontSize: "14px" }}>
+                <thead>
+                  <tr style={{ background: "#fff" }}>
+                    <th style={{ padding: "8px" }}>#</th>
+                    <th style={{ padding: "8px" }}>Student Name</th>
+                    <th style={{ padding: "8px" }}>degree_level (raw value)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {students.map((student, idx) => (
+                    <tr key={student.slug} style={{ borderBottom: "1px solid #eee" }}>
+                      <td style={{ padding: "8px" }}>{idx + 1}</td>
+                      <td style={{ padding: "8px" }}>{student.full_name}</td>
+                      <td style={{ padding: "8px", fontFamily: "monospace", background: "#f0f0f0" }}>
+                        {JSON.stringify(student.degree_level)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div style={{ marginTop: "12px", fontSize: "12px" }}>
+              <strong>Expected valid degree levels:</strong><br/>
+              - {VALID_DEGREE_LEVELS.BACHELORS}<br/>
+              - {VALID_DEGREE_LEVELS.MASTERS}<br/>
+              - {VALID_DEGREE_LEVELS.PHD}<br/>
+              - {VALID_DEGREE_LEVELS.POSTGRAD_DIPLOMA}
+            </div>
+          </div>
+
           {/* Results Count */}
           {filteredStudents.length > 0 && (
             <p className="results-count animate-fade-up animate-delay-3">
@@ -301,7 +375,7 @@ function DirectoryContent() {
                       <span className="alumni-card-cohort">Class of {student.cohort_year}</span>
                     )}
                     <p className="alumni-card-bio">{bioPreview(student.bio)}</p>
-                    <Link href={`/students/${student.slug}`} className="btn-card">
+                    <Link href={`/directory/students/${student.slug}?from=directory`} className="btn-card">
                       View Profile
                     </Link>
                   </article>
