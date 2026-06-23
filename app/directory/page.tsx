@@ -74,9 +74,7 @@ function DirectoryContent() {
   const [fullStudentData, setFullStudentData] = useState<Student | null>(null);
   const [modalLoading, setModalLoading] = useState(false);
 
-  // Debug logs for state
-  console.log("selectedStudent:", selectedStudent?.slug || null);
-  console.log("fullStudentData:", fullStudentData?.slug || null);
+
 
   // Handle browser back/forward and initial state from history
   useEffect(() => {
@@ -428,10 +426,7 @@ function DirectoryContent() {
                     )}
                     <p className="alumni-card-bio">{bioPreview(student.bio)}</p>
                     <button
-                      onClick={() => {
-                        console.log("View Profile clicked", student.slug);
-                        setSelectedStudent(student);
-                      }}
+                      onClick={() => setSelectedStudent(student)}
                       className="btn-card"
                     >
                       View Profile
