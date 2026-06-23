@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useMemo, useRef, Suspense } from "react";
-import { useSearchParams, usePathname } from "next/navigation";
+import { useState, useEffect, useMemo, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { supabase } from "../../lib/supabase";
 import { SiteNav } from "../../components/SiteNav";
 import { SiteFooter } from "../../components/SiteFooter";
@@ -25,11 +25,7 @@ function bioPreview(bio: string | null, maxLength = 120) {
 }
 
 function DirectoryContent() {
-  const mountId = Math.random().toString(36).substring(7);
-  console.log(`[Directory] Component rendering - mountId: ${mountId}, timestamp: ${Date.now()}`);
-
   const searchParams = useSearchParams();
-  const pathname = usePathname();
   const levelParam = searchParams.get("level");
 
   const [students, setStudents] = useState<Student[]>([]);
@@ -41,13 +37,11 @@ function DirectoryContent() {
   const [selectedDegreeLevel, setSelectedDegreeLevel] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const studentsPerPage = 12;
-  const savedScrollPositionRef = useRef(0);
 
   // Fetch students from Supabase
   useEffect(() => {
     async function fetchStudents() {
       try {
-        console.log("Fetching students from Supabase...");
         const { data, error } = await supabase
           .from("students")
           .select("slug, full_name, program, profile_photo_url, bio, cohort_year, degree_level")
@@ -55,12 +49,10 @@ function DirectoryContent() {
           .order("created_at", { ascending: false });
 
         if (error) {
-          console.error("Supabase error:", error);
           setLoading(false);
           return;
         }
 
-        console.log("Fetched students:", data?.length || 0);
         if (data) {
           setStudents(data);
         }
@@ -73,8 +65,6 @@ function DirectoryContent() {
 
     fetchStudents();
   }, []);
-
-
 
   // Define valid degree levels
   const VALID_DEGREE_LEVELS = {
@@ -106,30 +96,8 @@ function DirectoryContent() {
 
   // Reset pagination when search/filter changes
   useEffect(() => {
-    console.log(`[Directory] Pagination reset triggered - search: ${debouncedSearch}, program: ${selectedProgram}, cohort: ${selectedCohort}, level: ${selectedDegreeLevel}`);
     setCurrentPage(1);
   }, [debouncedSearch, selectedProgram, selectedCohort, selectedDegreeLevel]);
-
-  // Save scroll position when navigating to modal, restore when returning
-  useEffect(() => {
-    console.log(`[Directory] Pathname changed to: ${pathname}`);
-    // Check if pathname changed to modal route
-    if (pathname.startsWith('/directory/students/')) {
-      // Save scroll position before modal opens
-      savedScrollPositionRef.current = window.scrollY;
-      console.log(`[Directory] Saved scroll position: ${savedScrollPositionRef.current}`);
-    } else if (pathname === '/directory') {
-      // Restore scroll position when returning to directory
-      if (savedScrollPositionRef.current > 0) {
-        // Use setTimeout to ensure DOM is ready after Next.js scroll reset
-        setTimeout(() => {
-          console.log(`[Directory] Restoring scroll position to: ${savedScrollPositionRef.current}`);
-          window.scrollTo(0, savedScrollPositionRef.current);
-          savedScrollPositionRef.current = 0;
-        }, 0);
-      }
-    }
-  }, [pathname]);
 
   // Get unique programs, cohorts, and degree levels for filters
   const programs = useMemo(() => {
@@ -149,10 +117,7 @@ function DirectoryContent() {
 
   // Filter students based on search and filters
   const filteredStudents = useMemo(() => {
-    console.log(`[Filter] selectedDegreeLevel: ${JSON.stringify(selectedDegreeLevel)}`);
-    console.log(`[Filter] VALID_DEGREE_LEVELS:`, VALID_DEGREE_LEVELS);
-    
-    const filtered = students.filter((student) => {
+    return students.filter((student) => {
       const matchesSearch = debouncedSearch === "" ||
         student.full_name.toLowerCase().includes(debouncedSearch.toLowerCase());
       const matchesProgram = selectedProgram === "" || student.program === selectedProgram;
@@ -161,22 +126,17 @@ function DirectoryContent() {
       let matchesDegreeLevel = true;
       if (selectedDegreeLevel === "undergraduate") {
         matchesDegreeLevel = student.degree_level === VALID_DEGREE_LEVELS.BACHELORS;
-        console.log(`[Filter] ${student.full_name} (${JSON.stringify(student.degree_level)}) → undergrad match? ${matchesDegreeLevel}`);
       } else if (selectedDegreeLevel === "postgraduate") {
         matchesDegreeLevel = 
           student.degree_level === VALID_DEGREE_LEVELS.MASTERS ||
           student.degree_level === VALID_DEGREE_LEVELS.PHD ||
           student.degree_level === VALID_DEGREE_LEVELS.POSTGRAD_DIPLOMA;
-        console.log(`[Filter] ${student.full_name} (${JSON.stringify(student.degree_level)}) → postgrad match? ${matchesDegreeLevel}`);
       } else if (selectedDegreeLevel) {
         matchesDegreeLevel = student.degree_level === selectedDegreeLevel;
       }
 
       return matchesSearch && matchesProgram && matchesCohort && matchesDegreeLevel;
     });
-    
-    console.log(`[Filter] Total students: ${students.length} → Filtered: ${filtered.length}`);
-    return filtered;
   }, [students, debouncedSearch, selectedProgram, selectedCohort, selectedDegreeLevel, VALID_DEGREE_LEVELS]);
 
   // Determine dynamic heading
@@ -349,7 +309,7 @@ function DirectoryContent() {
                       <span className="alumni-card-cohort">Class of {student.cohort_year}</span>
                     )}
                     <p className="alumni-card-bio">{bioPreview(student.bio)}</p>
-                    <Link href={`/directory/students/${student.slug}?from=directory`} className="btn-card">
+                    <Link href={`/students/${student.slug}`} className="btn-card">
                       View Profile
                     </Link>
                   </article>
