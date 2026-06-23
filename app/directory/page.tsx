@@ -149,7 +149,10 @@ function DirectoryContent() {
 
   // Filter students based on search and filters
   const filteredStudents = useMemo(() => {
-    return students.filter((student) => {
+    console.log(`[Filter] selectedDegreeLevel: ${JSON.stringify(selectedDegreeLevel)}`);
+    console.log(`[Filter] VALID_DEGREE_LEVELS:`, VALID_DEGREE_LEVELS);
+    
+    const filtered = students.filter((student) => {
       const matchesSearch = debouncedSearch === "" ||
         student.full_name.toLowerCase().includes(debouncedSearch.toLowerCase());
       const matchesProgram = selectedProgram === "" || student.program === selectedProgram;
@@ -158,17 +161,22 @@ function DirectoryContent() {
       let matchesDegreeLevel = true;
       if (selectedDegreeLevel === "undergraduate") {
         matchesDegreeLevel = student.degree_level === VALID_DEGREE_LEVELS.BACHELORS;
+        console.log(`[Filter] ${student.full_name} (${JSON.stringify(student.degree_level)}) → undergrad match? ${matchesDegreeLevel}`);
       } else if (selectedDegreeLevel === "postgraduate") {
         matchesDegreeLevel = 
           student.degree_level === VALID_DEGREE_LEVELS.MASTERS ||
           student.degree_level === VALID_DEGREE_LEVELS.PHD ||
           student.degree_level === VALID_DEGREE_LEVELS.POSTGRAD_DIPLOMA;
+        console.log(`[Filter] ${student.full_name} (${JSON.stringify(student.degree_level)}) → postgrad match? ${matchesDegreeLevel}`);
       } else if (selectedDegreeLevel) {
         matchesDegreeLevel = student.degree_level === selectedDegreeLevel;
       }
 
       return matchesSearch && matchesProgram && matchesCohort && matchesDegreeLevel;
     });
+    
+    console.log(`[Filter] Total students: ${students.length} → Filtered: ${filtered.length}`);
+    return filtered;
   }, [students, debouncedSearch, selectedProgram, selectedCohort, selectedDegreeLevel, VALID_DEGREE_LEVELS]);
 
   // Determine dynamic heading
@@ -312,40 +320,6 @@ function DirectoryContent() {
                   )
                 ))}
               </select>
-            </div>
-          </div>
-
-          {/* Debug: Show student degree levels */}
-          <div className="animate-fade-up animate-delay-3" style={{ background: "#fff8f0", border: "2px dashed #e63946", padding: "16px", borderRadius: "8px", marginBottom: "20px" }}>
-            <h3 style={{ color: "#e63946", margin: "0 0 12px 0" }}>🔍 DEBUG: Student Degree Levels</h3>
-            <div style={{ maxHeight: "300px", overflowY: "auto" }}>
-              <table style={{ width: "100%", textAlign: "left", fontSize: "14px" }}>
-                <thead>
-                  <tr style={{ background: "#fff" }}>
-                    <th style={{ padding: "8px" }}>#</th>
-                    <th style={{ padding: "8px" }}>Student Name</th>
-                    <th style={{ padding: "8px" }}>degree_level (raw value)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {students.map((student, idx) => (
-                    <tr key={student.slug} style={{ borderBottom: "1px solid #eee" }}>
-                      <td style={{ padding: "8px" }}>{idx + 1}</td>
-                      <td style={{ padding: "8px" }}>{student.full_name}</td>
-                      <td style={{ padding: "8px", fontFamily: "monospace", background: "#f0f0f0" }}>
-                        {JSON.stringify(student.degree_level)}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div style={{ marginTop: "12px", fontSize: "12px" }}>
-              <strong>Expected valid degree levels:</strong><br/>
-              - {VALID_DEGREE_LEVELS.BACHELORS}<br/>
-              - {VALID_DEGREE_LEVELS.MASTERS}<br/>
-              - {VALID_DEGREE_LEVELS.PHD}<br/>
-              - {VALID_DEGREE_LEVELS.POSTGRAD_DIPLOMA}
             </div>
           </div>
 
