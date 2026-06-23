@@ -18,6 +18,14 @@ type Student = {
   degree_level: string | null;
 };
 
+// Define valid degree levels
+const VALID_DEGREE_LEVELS = {
+  BACHELORS: "Bachelor's (BSc/BA/BEng/LLB/etc.)",
+  MASTERS: "Master's (MSc/MA/MBA/etc.)",
+  PHD: "PhD",
+  POSTGRAD_DIPLOMA: "Postgraduate Diploma"
+};
+
 function bioPreview(bio: string | null, maxLength = 120) {
   if (!bio) return "Graduate of Miva Open University — view full profile for details.";
   if (bio.length <= maxLength) return bio;
@@ -65,14 +73,6 @@ function DirectoryContent() {
 
     fetchStudents();
   }, []);
-
-  // Define valid degree levels
-  const VALID_DEGREE_LEVELS = {
-    BACHELORS: "Bachelor's (BSc/BA/BEng/LLB/etc.)",
-    MASTERS: "Master's (MSc/MA/MBA/etc.)",
-    PHD: "PhD",
-    POSTGRAD_DIPLOMA: "Postgraduate Diploma"
-  };
 
   // Handle URL parameter for initial filter
   useEffect(() => {
@@ -137,7 +137,7 @@ function DirectoryContent() {
 
       return matchesSearch && matchesProgram && matchesCohort && matchesDegreeLevel;
     });
-  }, [students, debouncedSearch, selectedProgram, selectedCohort, selectedDegreeLevel, VALID_DEGREE_LEVELS]);
+  }, [students, debouncedSearch, selectedProgram, selectedCohort, selectedDegreeLevel]);
 
   // Determine dynamic heading
   const getHeading = () => {
@@ -309,7 +309,7 @@ function DirectoryContent() {
                       <span className="alumni-card-cohort">Class of {student.cohort_year}</span>
                     )}
                     <p className="alumni-card-bio">{bioPreview(student.bio)}</p>
-                    <Link href={`/students/${student.slug}`} className="btn-card">
+                    <Link href={`/directory/students/${student.slug}?from=directory`} className="btn-card">
                       View Profile
                     </Link>
                   </article>
