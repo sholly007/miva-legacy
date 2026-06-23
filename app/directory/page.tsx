@@ -74,6 +74,62 @@ function DirectoryContent() {
   const [fullStudentData, setFullStudentData] = useState<Student | null>(null);
   const [modalLoading, setModalLoading] = useState(false);
 
+  // Debug logs for state
+  console.log("selectedStudent:", selectedStudent?.slug || null);
+  console.log("fullStudentData:", fullStudentData?.slug || null);
+
+  // Handle browser back/forward and initial state from history
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (event.state?.selectedStudentSlug) {
+        // Find the student in our students list
+        const student = students.find(s => s.slug === event.state.selectedStudentSlug);
+        if (student) {
+          setSelectedStudent(student);
+        }
+      } else {
+        setSelectedStudent(null);
+      }
+    };
+
+    // Check initial history state
+    if (window.history.state?.selectedStudentSlug) {
+      const student = students.find(s => s.slug === window.history.state.selectedStudentSlug);
+      if (student) {
+        setSelectedStudent(student);
+      }
+    }
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [students]);
+
+  // Track if we are closing programmatically to avoid loops
+  const [isClosingModal, setIsClosingModal] = useState(false);
+  
+  // Update history when selectedStudent changes
+  useEffect(() => {
+    if (selectedStudent && !isClosingModal) {
+      window.history.pushState(
+        { selectedStudentSlug: selectedStudent.slug },
+        '',
+        `#${selectedStudent.slug}`
+      );
+    } else if (!selectedStudent && isClosingModal) {
+      setIsClosingModal(false);
+    }
+  }, [selectedStudent, isClosingModal]);
+  
+  // Handle closing the modal
+  const handleCloseModal = () => {
+    if (window.history.state?.selectedStudentSlug) {
+      setIsClosingModal(true);
+      window.history.back();
+    } else {
+      setSelectedStudent(null);
+    }
+  };
+
   // Fetch students from Supabase
   useEffect(() => {
     async function fetchStudents() {
@@ -372,7 +428,10 @@ function DirectoryContent() {
                     )}
                     <p className="alumni-card-bio">{bioPreview(student.bio)}</p>
                     <button
-                      onClick={() => setSelectedStudent(student)}
+                      onClick={() => {
+                        console.log("View Profile clicked", student.slug);
+                        setSelectedStudent(student);
+                      }}
                       className="btn-card"
                     >
                       View Profile
@@ -449,7 +508,7 @@ function DirectoryContent() {
       {selectedStudent && (
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-          onClick={() => setSelectedStudent(null)}
+          onClick={handleCloseModal}
         >
           <div 
             className="bg-white rounded-lg w-full max-w-5xl max-h-[90vh] overflow-y-auto"
@@ -457,7 +516,7 @@ function DirectoryContent() {
           >
             <div className="p-4 flex justify-end">
               <button 
-                onClick={() => setSelectedStudent(null)}
+                onClick={handleCloseModal}
                 className="text-gray-500 hover:text-gray-700"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
