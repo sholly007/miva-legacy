@@ -65,6 +65,11 @@
   background-color: rgba(0, 0, 0, 0.7);
 }
 
+/* Modal overlay scroll fix */
+.fixed.inset-0.z-50 {
+  overflow-y: auto;
+}
+
 .flex {
   display: flex;
 }

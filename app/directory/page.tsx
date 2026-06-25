@@ -99,6 +99,20 @@ function DirectoryContent() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [students]);
 
+  // Handle body overflow when modal opens/closes
+  useEffect(() => {
+    if (selectedStudent) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedStudent]);
+  
   // Fetch full student data
   useEffect(() => {
     const fetchFullData = async () => {
@@ -110,7 +124,7 @@ function DirectoryContent() {
             .select("*")
             .eq("slug", selectedStudent.slug)
             .single();
-            
+          
           if (error) {
             console.error("Error fetching full student data:", error);
             return;
