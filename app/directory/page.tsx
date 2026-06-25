@@ -516,24 +516,35 @@ function DirectoryContent() {
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
           onClick={handleCloseModal}
         >
+          {/* Close Button */}
+          <button 
+            onClick={handleCloseModal} 
+            style={{ 
+              position: 'fixed', 
+              top: '20px', 
+              right: '20px', 
+              zIndex: 1200, 
+              background: '#E63946', 
+              color: 'white', 
+              border: 'none', 
+              borderRadius: '50%', 
+              width: '48px', 
+              height: '48px', 
+              fontSize: '24px', 
+              cursor: 'pointer', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              boxShadow: '0 2px 8px rgba(0,0,0,0.3)' 
+            }} 
+            aria-label="Close profile" 
+          > 
+            ✕ 
+          </button>
           <div 
-            className="w-full h-full bg-white overflow-y-auto relative pt-16"
+            className="w-full h-full bg-white overflow-y-auto relative"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
-            <button 
-              onClick={handleCloseModal}
-              className="fixed top-5 right-5 z-[1100] flex items-center justify-center rounded-full text-white font-bold text-2xl transition-transform hover:scale-110 active:scale-95"
-              style={{ 
-                backgroundColor: "#E63946", 
-                width: "50px", 
-                height: "50px",
-                boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
-              }}
-              aria-label="Close profile"
-            >
-              ✕
-            </button>
 
             {/* Loading State */}
             {modalLoading ? (
