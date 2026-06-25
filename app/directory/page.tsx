@@ -523,13 +523,16 @@ function DirectoryContent() {
             {/* Close Button */}
             <button 
               onClick={handleCloseModal}
-              className="fixed top-4 right-4 z-10 flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-white"
-              style={{ backgroundColor: "#E63946" }}
+              className="fixed top-5 right-5 z-[1100] flex items-center justify-center rounded-full text-white font-bold text-2xl transition-transform hover:scale-110 active:scale-95"
+              style={{ 
+                backgroundColor: "#E63946", 
+                width: "50px", 
+                height: "50px",
+                boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
+              }}
+              aria-label="Close profile"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-              </svg>
-              Close
+              ✕
             </button>
 
             {/* Loading State */}
