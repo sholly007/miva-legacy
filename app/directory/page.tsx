@@ -516,31 +516,31 @@ function DirectoryContent() {
           style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.75)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', zIndex: 1000, overflowY: 'auto' }}
           onClick={handleCloseModal}
         >
-          {/* Close Button */}
           <button 
-            onClick={handleCloseModal} 
-            style={{ 
-              position: 'fixed', 
-              top: '20px', 
-              right: '20px', 
-              zIndex: 1200, 
-              background: '#E63946', 
-              color: 'white', 
-              border: 'none', 
-              borderRadius: '50%', 
-              width: '48px', 
-              height: '48px', 
-              fontSize: '24px', 
-              cursor: 'pointer', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center', 
-              boxShadow: '0 2px 8px rgba(0,0,0,0.3)' 
-            }} 
-            aria-label="Close profile" 
-          > 
-            ✕ 
-          </button>
+  onClick={(e) => { e.stopPropagation(); handleCloseModal(); }}
+  style={{ 
+    position: 'fixed', 
+    top: '16px', 
+    right: '16px', 
+    zIndex: 1200, 
+    background: '#E63946', 
+    color: 'white', 
+    border: 'none', 
+    borderRadius: '50%', 
+    width: '36px', 
+    height: '36px', 
+    fontSize: '16px', 
+    cursor: 'pointer', 
+    display: 'flex', 
+    alignItems: 'center', 
+    justifyContent: 'center',
+    fontWeight: 'bold',
+    lineHeight: '1'
+  }}
+  aria-label="Close profile"
+>
+  ✕
+</button>
           <div 
             className="w-full h-full bg-white overflow-y-auto relative"
             onClick={(e) => e.stopPropagation()}
