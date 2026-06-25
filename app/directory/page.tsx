@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useMemo, Suspense } from "react";
+import { useState, useEffect, useMemo, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "../../lib/supabase";
 import { SiteNav } from "../../components/SiteNav";
@@ -74,6 +74,7 @@ function DirectoryContent() {
   const [fullStudentData, setFullStudentData] = useState<Student | null>(null);
   const [modalLoading, setModalLoading] = useState(false);
   const [isClosingModal, setIsClosingModal] = useState(false);
+  const modalOverlayRef = useRef<HTMLDivElement>(null);
 
   // Handle browser back/forward and initial state from history
   useEffect(() => {
@@ -99,10 +100,14 @@ function DirectoryContent() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [students]);
 
-  // Handle body overflow when modal opens/closes
+  // Handle body overflow and scroll position when modal opens/closes
   useEffect(() => {
     if (selectedStudent) {
       document.body.style.overflow = 'hidden';
+      // Set scrollTop=0 when modal opens
+      if (modalOverlayRef.current) {
+        modalOverlayRef.current.scrollTop = 0;
+      }
     } else {
       document.body.style.overflow = '';
     }
@@ -507,11 +512,12 @@ function DirectoryContent() {
       {/* Full Screen Modal */}
       {selectedStudent && (
         <div 
+          ref={modalOverlayRef}
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
           onClick={handleCloseModal}
         >
           <div 
-            className="w-full h-full bg-white overflow-y-auto relative"
+            className="w-full h-full bg-white overflow-y-auto relative pt-16"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}

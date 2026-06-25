@@ -68,6 +68,9 @@
 /* Modal overlay scroll fix */
 .fixed.inset-0.z-50 {
   overflow-y: auto;
+  align-items: flex-start; /* Align content to top */
+  padding-top: 16px; /* Add padding to prevent content from touching top */
+  padding-bottom: 16px;
 }
 
 .flex {
