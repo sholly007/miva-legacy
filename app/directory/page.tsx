@@ -513,7 +513,7 @@ function DirectoryContent() {
       {selectedStudent && (
         <div 
           ref={modalOverlayRef}
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.75)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', zIndex: 1000, overflowY: 'auto' }}
           onClick={handleCloseModal}
         >
           {/* Close Button */}
