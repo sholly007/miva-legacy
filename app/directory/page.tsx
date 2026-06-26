@@ -513,38 +513,38 @@ function DirectoryContent() {
       {selectedStudent && (
         <div 
           ref={modalOverlayRef}
-          style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.75)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', zIndex: 1000, overflowY: 'auto' }}
+          style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.75)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', zIndex: 1000, overflowY: 'auto', paddingTop: '16px', paddingBottom: '16px' }}
           onClick={handleCloseModal}
         >
-          <button 
-  onClick={(e) => { e.stopPropagation(); handleCloseModal(); }}
-  style={{ 
-  position: 'fixed', 
-  top: '16px', 
-  right: '16px', 
-  zIndex: 1200, 
-  background: '#E63946', 
-  color: 'white', 
-  border: 'none', 
-  borderRadius: '50%', 
-  width: '24px', 
-  height: '24px', 
-  fontSize: '12px', 
-  cursor: 'pointer', 
-  display: 'flex', 
-  alignItems: 'center', 
-  justifyContent: 'center',
-  fontWeight: 'bold',
-  lineHeight: '1'
-}}
-  aria-label="Close profile"
->
-  ✕
-</button>
-          <div 
-            className="w-full h-full bg-white overflow-y-auto relative"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div style={{ position: 'relative', width: '100%', maxWidth: '1200px' }} onClick={(e) => e.stopPropagation()}>
+            <button 
+              onClick={(e) => { e.stopPropagation(); handleCloseModal(); }} 
+              style={{ 
+                position: 'absolute', 
+                top: '16px', 
+                right: '16px', 
+                zIndex: 1200, 
+                background: '#E63946', 
+                color: 'white', 
+                border: 'none', 
+                borderRadius: '50%', 
+                width: '24px', 
+                height: '24px', 
+                fontSize: '12px', 
+                cursor: 'pointer', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                fontWeight: 'bold', 
+                lineHeight: '1' 
+              }} 
+              aria-label="Close profile" 
+            > 
+              ✕ 
+            </button>
+            <div 
+              className="w-full bg-white overflow-y-auto"
+            >
 
             {/* Loading State */}
             {modalLoading ? (
@@ -796,6 +796,7 @@ function DirectoryContent() {
                 <div className="text-xl font-semibold">Student not found</div>
               </div>
             )}
+          </div>
           </div>
         </div>
       )}
