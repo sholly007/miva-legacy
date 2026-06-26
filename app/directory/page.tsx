@@ -7,6 +7,7 @@ import { supabase } from "../../lib/supabase";
 import { SiteNav } from "../../components/SiteNav";
 import { SiteFooter } from "../../components/SiteFooter";
 import { ScrollReveal } from "../../components/ScrollReveal";
+import { VALID_DEGREE_LEVELS } from "../../lib/constants";
 
 type Student = {
   slug: string;
@@ -17,14 +18,6 @@ type Student = {
   cohort_year: string | number | null;
   degree_level: string | null;
   [key: string]: any;
-};
-
-// Define valid degree levels
-const VALID_DEGREE_LEVELS = {
-  BACHELORS: "Bachelor's (BSc/BA/BEng/LLB/etc.)",
-  MASTERS: "Master's (MSc/MA/MBA/etc.)",
-  PHD: "PhD",
-  POSTGRAD_DIPLOMA: "Postgraduate Diploma"
 };
 
 function bioPreview(bio: string | null, maxLength = 120) {

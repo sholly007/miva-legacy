@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "../../../lib/supabase";
 import { updateStudent } from "../../admin/actions";
 import Link from "next/link";
+import { DEGREE_LEVEL_OPTIONS } from "../../../lib/constants";
 
 export default function EditStudentPage({ params }: { params: { token: string } }) {
   const [loading, setLoading] = useState(true);
@@ -192,10 +193,21 @@ export default function EditStudentPage({ params }: { params: { token: string } 
               className="admin-input"
             >
               <option value="">Select Degree Level</option>
-              <option value="Bachelor's">Bachelor's</option>
-              <option value="Master's">Master's</option>
-              <option value="PhD">PhD</option>
-              <option value="Postgraduate Diploma">Postgraduate Diploma</option>
+              <option value="Bachelor's (BSc/BA/BEng/LLB/etc.)">
+  Bachelor's
+</option>
+
+<option value="Master's (MSc/MA/MBA/etc.)">
+  Master's
+</option>
+
+<option value="PhD">
+  PhD
+</option>
+
+<option value="Postgraduate Diploma">
+  Postgraduate Diploma
+</option>
             </select>
           </div>
 

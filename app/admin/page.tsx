@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { addStudent, verifyPassword } from "./actions";
+import { DEGREE_LEVEL_OPTIONS } from "../../lib/constants";
 
 const emptyForm = {
   fullName: "",
@@ -167,10 +168,11 @@ export default function AdminPage() {
                   className="admin-input"
                 >
                   <option value="">Select Degree Level</option>
-                  <option value="Bachelor's">Bachelor's</option>
-                  <option value="Master's">Master's</option>
-                  <option value="PhD">PhD</option>
-                  <option value="Postgraduate Diploma">Postgraduate Diploma</option>
+                  {DEGREE_LEVEL_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
               </div>
 
