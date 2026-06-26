@@ -520,7 +520,7 @@ function DirectoryContent() {
             <button 
               onClick={(e) => { e.stopPropagation(); handleCloseModal(); }} 
               style={{ 
-                position: 'absolute', 
+                position: 'absolute'  →  position: 'fixed' 
                 top: '16px', 
                 right: '16px', 
                 zIndex: 1200, 
