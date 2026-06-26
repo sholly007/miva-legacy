@@ -193,21 +193,11 @@ export default function EditStudentPage({ params }: { params: { token: string } 
               className="admin-input"
             >
               <option value="">Select Degree Level</option>
-              <option value="Bachelor's (BSc/BA/BEng/LLB/etc.)">
-  Bachelor's
-</option>
-
-<option value="Master's (MSc/MA/MBA/etc.)">
-  Master's
-</option>
-
-<option value="PhD">
-  PhD
-</option>
-
-<option value="Postgraduate Diploma">
-  Postgraduate Diploma
-</option>
+              {DEGREE_LEVEL_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
           </div>
 
