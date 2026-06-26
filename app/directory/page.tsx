@@ -519,24 +519,24 @@ function DirectoryContent() {
           <button 
   onClick={(e) => { e.stopPropagation(); handleCloseModal(); }}
   style={{ 
-    position: 'fixed', 
-    top: '16px', 
-    right: '16px', 
-    zIndex: 1200, 
-    background: '#E63946', 
-    color: 'white', 
-    border: 'none', 
-    borderRadius: '50%', 
-    width: '36px', 
-    height: '36px', 
-    fontSize: '16px', 
-    cursor: 'pointer', 
-    display: 'flex', 
-    alignItems: 'center', 
-    justifyContent: 'center',
-    fontWeight: 'bold',
-    lineHeight: '1'
-  }}
+  position: 'fixed', 
+  top: '16px', 
+  right: '16px', 
+  zIndex: 1200, 
+  background: '#E63946', 
+  color: 'white', 
+  border: 'none', 
+  borderRadius: '50%', 
+  width: '24px', 
+  height: '24px', 
+  fontSize: '12px', 
+  cursor: 'pointer', 
+  display: 'flex', 
+  alignItems: 'center', 
+  justifyContent: 'center',
+  fontWeight: 'bold',
+  lineHeight: '1'
+}}
   aria-label="Close profile"
 >
   ✕
