@@ -641,21 +641,21 @@ function DirectoryContent() {
                                   if (!degreeLevel) {
                                     const programLower = (fullStudentData.program || "").toLowerCase();
                                     if (programLower.includes("phd") || programLower.includes("doctor")) {
-                                      degreeLevel = "PhD";
+                                      degreeLevel = VALID_DEGREE_LEVELS.PHD;
                                     } else if (programLower.includes("msc") || programLower.includes("ma") || programLower.includes("mba") || programLower.includes("master")) {
-                                      degreeLevel = "Master's";
+                                      degreeLevel = VALID_DEGREE_LEVELS.MASTERS;
                                     } else if (programLower.includes("postgraduate diploma") || programLower.includes("pgd")) {
-                                      degreeLevel = "Postgraduate Diploma";
+                                      degreeLevel = VALID_DEGREE_LEVELS.POSTGRAD_DIPLOMA;
                                     } else {
-                                      degreeLevel = "Bachelor's";
+                                      degreeLevel = VALID_DEGREE_LEVELS.BACHELORS;
                                     }
                                   }
 
                                   let classification = "";
 
-                                  if (degreeLevel === "PhD") {
+                                  if (degreeLevel === VALID_DEGREE_LEVELS.PHD) {
                                     return fullStudentData.gpa;
-                                  } else if (degreeLevel === "Master's" || degreeLevel === "Postgraduate Diploma") {
+                                  } else if (degreeLevel === VALID_DEGREE_LEVELS.MASTERS || degreeLevel === VALID_DEGREE_LEVELS.POSTGRAD_DIPLOMA) {
                                     if (gpa >= 4.50 && gpa <= 5.00) {
                                       classification = "Distinction";
                                     } else if (gpa >= 3.50 && gpa <= 4.49) {
