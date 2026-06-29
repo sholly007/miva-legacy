@@ -8,6 +8,7 @@ import { SiteNav } from "../../components/SiteNav";
 import { SiteFooter } from "../../components/SiteFooter";
 import { ScrollReveal } from "../../components/ScrollReveal";
 import { VALID_DEGREE_LEVELS } from "../../lib/constants";
+import { getDirectoryTheme } from "../../lib/directoryTheme";
 import Gallery from "../../components/Gallery";
 
 type Student = {
@@ -63,6 +64,8 @@ function SocialButton({ href, label, children }: { href: string; label: string; 
 function DirectoryContent() {
   const searchParams = useSearchParams();
   const levelParam = searchParams.get("level");
+  const isPostgraduate = levelParam === "postgraduate";
+  const theme = getDirectoryTheme(isPostgraduate);
 
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
@@ -345,17 +348,15 @@ function DirectoryContent() {
     );
   }
 
-  const isPostgraduate = levelParam === "postgraduate";
-  
   return (
-    <main className={isPostgraduate ? "postgraduate" : ""}>
+    <main>
       <SiteNav links={navLinks} />
 
       <section className="alumni-section alumni-section-directory">
         <div className="container">
           <div className="section-header animate-fade-up animate-delay-1">
-            <p className="section-label">Alumni Directory</p>
-            <h2 className="section-title">{getHeading()}</h2>
+            <p className={theme.sectionLabel}>Alumni Directory</p>
+            <h2 className={theme.sectionTitle}>{getHeading()}</h2>
           </div>
 
           {/* Search and Filters */}
@@ -428,23 +429,23 @@ function DirectoryContent() {
             <div className="alumni-grid">
               {currentStudents.map((student, index) => (
                 <ScrollReveal key={student.slug} delay={index * 80}>
-                  <article className="alumni-card">
+                  <article className={theme.alumniCard}>
                     {student.profile_photo_url ? (
-                      <img src={student.profile_photo_url} alt={student.full_name} className="alumni-card-photo" />
+                      <img src={student.profile_photo_url} alt={student.full_name} className={theme.alumniCardPhoto} />
                     ) : (
-                      <div className="alumni-card-photo-placeholder" aria-hidden="true">
+                      <div className={theme.alumniCardPhoto} aria-hidden="true">
                         ◈
                       </div>
                     )}
                     <h3 className="alumni-card-name">{student.full_name}</h3>
                     <p className="alumni-card-degree">{student.program}</p>
                     {student.cohort_year && (
-                      <span className="alumni-card-cohort">Class of {student.cohort_year}</span>
+                      <span className={theme.alumniCardCohort}>Class of {student.cohort_year}</span>
                     )}
                     <p className="alumni-card-bio">{bioPreview(student.bio)}</p>
                     <button
                       onClick={() => setSelectedStudent(student)}
-                      className="btn-card"
+                      className={theme.button}
                     >
                       View Profile
                     </button>
@@ -482,7 +483,7 @@ function DirectoryContent() {
                     <button
                       key={page}
                       onClick={() => setCurrentPage(page as number)}
-                      className={`pagination-number ${currentPage === page ? "active" : ""}`}
+                      className={`pagination-number ${currentPage === page ? theme.paginationActive : ""}`}
                     >
                       {page}
                     </button>
@@ -526,7 +527,6 @@ function DirectoryContent() {
           <div 
             style={{ position: 'relative', width: '100%', maxWidth: '1200px' }} 
             onClick={(e) => e.stopPropagation()} 
-            className={isPostgraduate ? "postgraduate" : ""}
           >
             <button 
               onClick={(e) => { e.stopPropagation(); handleCloseModal(); }} 

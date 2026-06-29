@@ -3,6 +3,7 @@ import { supabase } from "../../../lib/supabase";
 import { SiteNav } from "../../../components/SiteNav";
 import { SiteFooter } from "../../../components/SiteFooter";
 import { VALID_DEGREE_LEVELS } from "../../../lib/constants";
+import { getDirectoryTheme } from "../../../lib/directoryTheme";
 import Gallery from "../../../components/Gallery";
 
 export const dynamic = "force-dynamic";
@@ -62,9 +63,10 @@ export default async function StudentProfile({ params }: { params: { slug: strin
     student.degree_level === VALID_DEGREE_LEVELS.MASTERS || 
     student.degree_level === VALID_DEGREE_LEVELS.PHD || 
     student.degree_level === VALID_DEGREE_LEVELS.POSTGRAD_DIPLOMA;
+  const theme = getDirectoryTheme(isPostgraduate);
 
   return (
-    <main className={isPostgraduate ? "postgraduate" : ""}>
+    <main>
       <SiteNav
         badge="Member Verified"
         links={[
@@ -80,12 +82,12 @@ export default async function StudentProfile({ params }: { params: { slug: strin
           <aside className="panel panel-sidebar">
             <img src={student.profile_photo_url} alt={student.full_name} className="profile-avatar" />
 
-            <span className="verified-badge profile-verified">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-              </svg>
-              Member Verified
-            </span>
+            <span className={`${theme.verifiedBadge} profile-verified`}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                      </svg>
+                      Member Verified
+                    </span>
 
             <h1 className="profile-sidebar-name">{student.full_name}</h1>
             <p className="profile-sidebar-degree">{student.program}</p>
@@ -143,7 +145,7 @@ export default async function StudentProfile({ params }: { params: { slug: strin
                 {student.gpa && (
                   <div className="profile-stat">
                     <p className="profile-stat-label">GPA</p>
-                    <p className="profile-stat-value accent">
+                            <p className={`profile-stat-value ${theme.accent}`}>
                       {(() => {
                         const gpa = parseFloat(student.gpa);
                         if (isNaN(gpa)) {
@@ -219,7 +221,7 @@ export default async function StudentProfile({ params }: { params: { slug: strin
                 )}
               </div>
 
-              {student.quote && <blockquote className="panel-quote">&ldquo;{student.quote}&rdquo;</blockquote>}
+              {student.quote && <blockquote className={theme.panelQuote}>&ldquo;{student.quote}&rdquo;</blockquote>}
 
               {hasSocialLinks && (
                 <div className="social-row" style={{ marginTop: "24px" }}>

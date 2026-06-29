@@ -468,74 +468,152 @@ h1, h2, h3, h4 {
   box-shadow: 0 8px 24px rgba(230, 57, 70, 0.35);
 }
 
-/* Postgraduate-specific styles */
-.postgraduate .btn-card {
+/* Postgraduate theme classes */
+.btn-card-blue {
+  width: 100%;
   background-color: var(--mid-blue);
+  color: var(--text-on-dark);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
-.postgraduate .btn-card:hover {
+.btn-card-blue:hover {
+  transform: scale(1.03);
   background-color: #1b2e4b;
   box-shadow: 0 8px 24px rgba(42, 66, 112, 0.35);
 }
 
-.postgraduate .alumni-card {
-  border-color: rgba(42, 66, 112, 0.3);
+.alumni-card-postgraduate {
+  position: relative;
+  background-color: var(--light-blue-white);
+  color: var(--text-body);
+  border-radius: 12px;
+  padding: 28px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid rgba(42, 66, 112, 0.3);
+  box-shadow: 0 2px 12px rgba(27, 46, 75, 0.06);
+  overflow: hidden;
+  transition:
+    transform var(--duration-snappy) var(--ease-smooth),
+    box-shadow var(--duration-snappy) var(--ease-smooth),
+    border-color var(--duration-snappy) var(--ease-smooth),
+    background-color var(--duration-snappy) var(--ease-smooth);
+}
+
+.alumni-card-postgraduate:hover {
+  transform: translateY(-4px);
+  border-color: var(--mid-blue);
+  background-color: rgba(214, 223, 240, 0.4);
+  box-shadow: 0 12px 36px rgba(27, 46, 75, 0.14);
+}
+
+.alumni-card-photo-blue {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(42, 66, 112, 0.4);
+  margin-bottom: 16px;
   background-color: var(--light-blue-white);
 }
 
-.postgraduate .alumni-card:hover {
-  border-color: var(--mid-blue);
-  background-color: rgba(214, 223, 240, 0.4);
-}
-
-.postgraduate .alumni-card-photo,
-.postgraduate .alumni-card-photo-placeholder {
-  border-color: rgba(42, 66, 112, 0.4);
-}
-
-.postgraduate .alumni-card-cohort {
-  background-color: rgba(214, 223, 240, 0.8);
+.alumni-card-cohort-blue {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--text-heading-secondary);
+  background-color: rgba(214, 223, 240, 0.8);
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 12px;
 }
 
-.postgraduate .section-label {
+.section-label-blue {
   color: var(--mid-blue);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
 }
 
-.postgraduate .section-title {
+.section-title-blue {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 5vw, 36px);
+  font-weight: 600;
   color: var(--deep-navy);
 }
 
-.postgraduate .verified-badge {
+.verified-badge-blue {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
   background-color: var(--ice-blue);
-  border-color: rgba(42, 66, 112, 0.3);
+  border: 1px solid rgba(42, 66, 112, 0.3);
   color: var(--mid-blue);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  white-space: nowrap;
 }
 
-.postgraduate .panel-quote {
-  border-left-color: var(--mid-blue);
+.panel-quote-blue {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--text-heading-secondary);
+  border-left: 3px solid var(--mid-blue);
+  padding-left: 20px;
+  margin-bottom: 0;
 }
 
-.postgraduate .profile-stat-value.accent {
-  color: var(--mid-blue);
-}
-
-.postgraduate .pagination-number.active {
+.pagination-number-active-blue {
   background-color: var(--mid-blue);
+  color: var(--text-on-dark);
   border-color: var(--mid-blue);
 }
 
-.postgraduate .pagination-number.active:hover {
+.pagination-number-active-blue:hover {
   background-color: var(--deep-navy);
   border-color: var(--deep-navy);
 }
 
-.postgraduate .lightbox-close {
+.lightbox-close-blue {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   background-color: var(--mid-blue);
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2001;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.postgraduate .lightbox-close:hover {
-  background-color: var(--deep-navy);
+.lightbox-close-blue:hover {
+  background-color: #1b2e4b;
+  transform: scale(1.1);
+}
+
+.text-mid-blue {
+  color: var(--mid-blue);
 }
 
 .admin-submit:hover:not(:disabled) {
