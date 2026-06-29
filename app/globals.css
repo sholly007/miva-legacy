@@ -2083,7 +2083,7 @@ h1, h2, h3, h4 {
   animation: spin 6s linear infinite;
 }
 
-.center-star {
+.sparkle-icon > svg:nth-child(2) {
   position: absolute;
   top: 0;
   left: 0;
