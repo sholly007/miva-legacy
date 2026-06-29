@@ -26,7 +26,18 @@ function bioPreview(bio: string | null, maxLength = 120) {
   return `${bio.slice(0, maxLength).trim()}…`;
 }
 
-function getAchievements(achievements: unknown): string[] {
+function getAchievements(achievements: unknown): string[] | string {
+  if (!achievements) return [];
+  if (Array.isArray(achievements)) {
+    return achievements.map((item) => String(item).trim()).filter(Boolean);
+  }
+  if (typeof achievements === "string") {
+    return achievements.trim();
+  }
+  return [];
+}
+
+function getSkillsArray(achievements: unknown): string[] {
   if (!achievements) return [];
   if (Array.isArray(achievements)) {
     return achievements.map((item) => String(item).trim()).filter(Boolean);
@@ -602,10 +613,10 @@ function DirectoryContent() {
                         )}
                       </ul>
 
-                      {getAchievements(fullStudentData.achievements).length > 0 && (
+                      {getSkillsArray(fullStudentData.achievements).length > 0 && (
                         <div className="skill-list">
                           <p className="skill-list-title">Skills &amp; Milestones</p>
-                          {getAchievements(fullStudentData.achievements).map((achievement, index) => (
+                          {getSkillsArray(fullStudentData.achievements).map((achievement, index) => (
                             <div key={`${achievement}-${index}`} className="skill-item">
                               <div className="skill-item-header">
                                 <span>{achievement}</span>
@@ -737,19 +748,30 @@ function DirectoryContent() {
                         )}
                       </section>
 
-                      {getAchievements(fullStudentData.achievements).length > 0 && (
-                        <section className="panel">
-                          <p className="panel-subheading">Badges</p>
-                          <h2 className="panel-heading">Achievements</h2>
-                          <div className="badge-grid">
-                            {getAchievements(fullStudentData.achievements).map((achievement, index) => (
-                              <span key={`${achievement}-${index}`} className="badge-chip">
-                                {achievement}
-                              </span>
-                            ))}
-                          </div>
-                        </section>
-                      )}
+                      {(function() {
+                        const achievements = getAchievements(fullStudentData.achievements);
+                        if (!achievements) return null;
+                        if (Array.isArray(achievements) && achievements.length === 0) return null;
+                        if (typeof achievements === "string" && achievements.length === 0) return null;
+                        
+                        return (
+                          <section className="panel">
+                            <p className="panel-subheading">Badges</p>
+                            <h2 className="panel-heading">Achievements</h2>
+                            {Array.isArray(achievements) ? (
+                              <ul className="achievement-list">
+                                {achievements.map((achievement, index) => (
+                                  <li key={`${achievement}-${index}`} className="achievement-item">
+                                    <span className="achievement-text">{achievement}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
+                              <p className="achievement-paragraph">{achievements}</p>
+                            )}
+                          </section>
+                        );
+                      })()}
 
                       {Array.isArray(fullStudentData.gallery_urls) && fullStudentData.gallery_urls.length > 0 && (
                         <section className="panel">

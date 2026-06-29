@@ -6,7 +6,18 @@ import { VALID_DEGREE_LEVELS } from "../../../lib/constants";
 
 export const dynamic = "force-dynamic";
 
-function getAchievements(achievements: unknown): string[] {
+function getAchievements(achievements: unknown): string[] | string {
+  if (!achievements) return [];
+  if (Array.isArray(achievements)) {
+    return achievements.map((item) => String(item).trim()).filter(Boolean);
+  }
+  if (typeof achievements === "string") {
+    return achievements.trim();
+  }
+  return [];
+}
+
+function getSkillsArray(achievements: unknown): string[] {
   if (!achievements) return [];
   if (Array.isArray(achievements)) {
     return achievements.map((item) => String(item).trim()).filter(Boolean);
@@ -99,22 +110,22 @@ export default async function StudentProfile({ params }: { params: { slug: strin
               )}
             </ul>
 
-            {achievements.length > 0 && (
-              <div className="skill-list">
-                <p className="skill-list-title">Skills &amp; Milestones</p>
-                {achievements.map((achievement, index) => (
-                  <div key={`${achievement}-${index}`} className="skill-item">
-                    <div className="skill-item-header">
-                      <span>{achievement}</span>
-                      <span>{Math.min(100, 85 + (index % 3) * 5)}%</span>
-                    </div>
-                    <div className="skill-bar">
-                      <div className="skill-bar-fill" style={{ width: `${Math.min(100, 85 + (index % 3) * 5)}%` }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+            {getSkillsArray(student.achievements).length > 0 && (
+                        <div className="skill-list">
+                          <p className="skill-list-title">Skills &amp; Milestones</p>
+                          {getSkillsArray(student.achievements).map((achievement, index) => (
+                            <div key={`${achievement}-${index}`} className="skill-item">
+                              <div className="skill-item-header">
+                                <span>{achievement}</span>
+                                <span>{Math.min(100, 85 + (index % 3) * 5)}%</span>
+                              </div>
+                              <div className="skill-bar">
+                                <div className="skill-bar-fill" style={{ width: `${Math.min(100, 85 + (index % 3) * 5)}%` }} />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
           </aside>
 
           <div className="profile-main-stack">
@@ -240,17 +251,21 @@ export default async function StudentProfile({ params }: { params: { slug: strin
               )}
             </section>
 
-            {achievements.length > 0 && (
+            {achievements && (Array.isArray(achievements) ? achievements.length > 0 : achievements.length > 0) && (
               <section className="panel">
                 <p className="panel-subheading">Badges</p>
                 <h2 className="panel-heading">Achievements</h2>
-                <div className="badge-grid">
-                  {achievements.map((achievement, index) => (
-                    <span key={`${achievement}-${index}`} className="badge-chip">
-                      {achievement}
-                    </span>
-                  ))}
-                </div>
+                {Array.isArray(achievements) ? (
+                  <ul className="achievement-list">
+                    {achievements.map((achievement, index) => (
+                      <li key={`${achievement}-${index}`} className="achievement-item">
+                        <span className="achievement-text">{achievement}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="achievement-paragraph">{achievements}</p>
+                )}
               </section>
             )}
 
