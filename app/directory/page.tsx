@@ -8,6 +8,7 @@ import { SiteNav } from "../../components/SiteNav";
 import { SiteFooter } from "../../components/SiteFooter";
 import { ScrollReveal } from "../../components/ScrollReveal";
 import { VALID_DEGREE_LEVELS } from "../../lib/constants";
+import Gallery from "../../components/Gallery";
 
 type Student = {
   slug: string;
@@ -777,11 +778,7 @@ function DirectoryContent() {
                         <section className="panel">
                           <p className="panel-subheading">Gallery</p>
                           <h2 className="panel-heading">Moments in Time</h2>
-                          <div className="gallery-grid">
-                            {fullStudentData.gallery_urls.map((url: string, i: number) => (
-                              <img key={i} src={url} alt={`${fullStudentData.full_name} — photo ${i + 1}`} />
-                            ))}
-                          </div>
+                          <Gallery images={fullStudentData.gallery_urls} studentName={fullStudentData.full_name} />
                         </section>
                       )}
 

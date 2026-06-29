@@ -3,6 +3,7 @@ import { supabase } from "../../../lib/supabase";
 import { SiteNav } from "../../../components/SiteNav";
 import { SiteFooter } from "../../../components/SiteFooter";
 import { VALID_DEGREE_LEVELS } from "../../../lib/constants";
+import Gallery from "../../../components/Gallery";
 
 export const dynamic = "force-dynamic";
 
@@ -273,11 +274,7 @@ export default async function StudentProfile({ params }: { params: { slug: strin
               <section className="panel">
                 <p className="panel-subheading">Gallery</p>
                 <h2 className="panel-heading">Moments in Time</h2>
-                <div className="gallery-grid">
-                  {student.gallery_urls.map((url: string, i: number) => (
-                    <img key={i} src={url} alt={`${student.full_name} — photo ${i + 1}`} />
-                  ))}
-                </div>
+                <Gallery images={student.gallery_urls} studentName={student.full_name} />
               </section>
             )}
 
