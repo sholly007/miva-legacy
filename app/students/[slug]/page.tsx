@@ -3,7 +3,6 @@ import { supabase } from "../../../lib/supabase";
 import { SiteNav } from "../../../components/SiteNav";
 import { SiteFooter } from "../../../components/SiteFooter";
 import { VALID_DEGREE_LEVELS } from "../../../lib/constants";
-import { getDirectoryTheme } from "../../../lib/directoryTheme";
 import Gallery from "../../../components/Gallery";
 
 export const dynamic = "force-dynamic";
@@ -63,10 +62,9 @@ export default async function StudentProfile({ params }: { params: { slug: strin
     student.degree_level === VALID_DEGREE_LEVELS.MASTERS || 
     student.degree_level === VALID_DEGREE_LEVELS.PHD || 
     student.degree_level === VALID_DEGREE_LEVELS.POSTGRAD_DIPLOMA;
-  const { theme } = getDirectoryTheme(isPostgraduate);
 
   return (
-    <main data-theme={theme}>
+    <main data-theme={isPostgraduate ? "postgraduate" : "undergraduate"}>
       <SiteNav
         badge="Member Verified"
         links={[

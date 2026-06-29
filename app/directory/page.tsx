@@ -8,7 +8,6 @@ import { SiteNav } from "../../components/SiteNav";
 import { SiteFooter } from "../../components/SiteFooter";
 import { ScrollReveal } from "../../components/ScrollReveal";
 import { VALID_DEGREE_LEVELS } from "../../lib/constants";
-import { getDirectoryTheme } from "../../lib/directoryTheme";
 import Gallery from "../../components/Gallery";
 
 type Student = {
@@ -65,7 +64,6 @@ function DirectoryContent() {
   const searchParams = useSearchParams();
   const levelParam = searchParams.get("level");
   const isPostgraduate = levelParam === "postgraduate";
-  const { theme } = getDirectoryTheme(isPostgraduate);
 
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
@@ -332,7 +330,7 @@ function DirectoryContent() {
 
   if (loading) {
     return (
-      <main data-theme={theme}>
+      <main data-theme={isPostgraduate ? "postgraduate" : "undergraduate"}>
         <SiteNav links={navLinks} />
         <section className="alumni-section alumni-section-directory">
           <div className="container">
@@ -349,7 +347,7 @@ function DirectoryContent() {
   }
 
   return (
-    <main data-theme={theme}>
+    <main data-theme={isPostgraduate ? "postgraduate" : "undergraduate"}>
       <SiteNav links={navLinks} />
 
       <section className="alumni-section alumni-section-directory">
@@ -545,7 +543,7 @@ function DirectoryContent() {
                 <div className="text-xl font-semibold">Loading Profile...</div>
               </div>
             ) : fullStudentData ? (
-              <main data-theme={theme}>
+              <main data-theme={isPostgraduate ? "postgraduate" : "undergraduate"}>
                 <SiteNav
                   badge="Member Verified"
                   links={[
