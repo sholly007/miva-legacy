@@ -58,9 +58,13 @@ export default async function StudentProfile({ params }: { params: { slug: strin
   const achievements = getAchievements(student.achievements);
   const hasSocialLinks = student.linkedin_url || student.twitter_url || student.instagram_url || student.tiktok_url;
   const hasGallery = Array.isArray(student.gallery_urls) && student.gallery_urls.length > 0;
+  const isPostgraduate = 
+    student.degree_level === VALID_DEGREE_LEVELS.MASTERS || 
+    student.degree_level === VALID_DEGREE_LEVELS.PHD || 
+    student.degree_level === VALID_DEGREE_LEVELS.POSTGRAD_DIPLOMA;
 
   return (
-    <main>
+    <main className={isPostgraduate ? "postgraduate" : ""}>
       <SiteNav
         badge="Member Verified"
         links={[

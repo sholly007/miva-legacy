@@ -345,8 +345,10 @@ function DirectoryContent() {
     );
   }
 
+  const isPostgraduate = levelParam === "postgraduate";
+  
   return (
-    <main>
+    <main className={isPostgraduate ? "postgraduate" : ""}>
       <SiteNav links={navLinks} />
 
       <section className="alumni-section alumni-section-directory">
@@ -521,7 +523,11 @@ function DirectoryContent() {
           style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.75)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', zIndex: 1000, overflowY: 'auto', paddingTop: '16px', paddingBottom: '16px' }}
           onClick={handleCloseModal}
         >
-          <div style={{ position: 'relative', width: '100%', maxWidth: '1200px' }} onClick={(e) => e.stopPropagation()}>
+          <div 
+            style={{ position: 'relative', width: '100%', maxWidth: '1200px' }} 
+            onClick={(e) => e.stopPropagation()} 
+            className={isPostgraduate ? "postgraduate" : ""}
+          >
             <button 
               onClick={(e) => { e.stopPropagation(); handleCloseModal(); }} 
               style={{ 

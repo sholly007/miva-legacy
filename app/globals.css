@@ -468,6 +468,76 @@ h1, h2, h3, h4 {
   box-shadow: 0 8px 24px rgba(230, 57, 70, 0.35);
 }
 
+/* Postgraduate-specific styles */
+.postgraduate .btn-card {
+  background-color: var(--mid-blue);
+}
+
+.postgraduate .btn-card:hover {
+  background-color: #1b2e4b;
+  box-shadow: 0 8px 24px rgba(42, 66, 112, 0.35);
+}
+
+.postgraduate .alumni-card {
+  border-color: rgba(42, 66, 112, 0.3);
+  background-color: var(--light-blue-white);
+}
+
+.postgraduate .alumni-card:hover {
+  border-color: var(--mid-blue);
+  background-color: rgba(214, 223, 240, 0.4);
+}
+
+.postgraduate .alumni-card-photo,
+.postgraduate .alumni-card-photo-placeholder {
+  border-color: rgba(42, 66, 112, 0.4);
+}
+
+.postgraduate .alumni-card-cohort {
+  background-color: rgba(214, 223, 240, 0.8);
+  color: var(--text-heading-secondary);
+}
+
+.postgraduate .section-label {
+  color: var(--mid-blue);
+}
+
+.postgraduate .section-title {
+  color: var(--deep-navy);
+}
+
+.postgraduate .verified-badge {
+  background-color: var(--ice-blue);
+  border-color: rgba(42, 66, 112, 0.3);
+  color: var(--mid-blue);
+}
+
+.postgraduate .panel-quote {
+  border-left-color: var(--mid-blue);
+}
+
+.postgraduate .profile-stat-value.accent {
+  color: var(--mid-blue);
+}
+
+.postgraduate .pagination-number.active {
+  background-color: var(--mid-blue);
+  border-color: var(--mid-blue);
+}
+
+.postgraduate .pagination-number.active:hover {
+  background-color: var(--deep-navy);
+  border-color: var(--deep-navy);
+}
+
+.postgraduate .lightbox-close {
+  background-color: var(--mid-blue);
+}
+
+.postgraduate .lightbox-close:hover {
+  background-color: var(--deep-navy);
+}
+
 .admin-submit:hover:not(:disabled) {
   transform: scale(1.03);
   box-shadow: 0 8px 28px rgba(230, 57, 70, 0.38);
