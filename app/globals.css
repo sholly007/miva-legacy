@@ -2075,16 +2075,16 @@ h1, h2, h3, h4 {
   width: 0.9em;
   height: 0.9em;
   vertical-align: baseline;
-  animation: spin 3.5s linear infinite;
+  animation: spin 6s linear infinite;
   margin-left: 0.15em;
 }
 
 @keyframes spin {
   from {
-    transform: rotate(0deg);
+    transform: rotate(360deg);
   }
   to {
-    transform: rotate(360deg);
+    transform: rotate(0deg);
   }
 }
 

@@ -60,10 +60,14 @@ function SocialButton({ href, label, children }: { href: string; label: string; 
   );
 }
 
-function DirectoryContent() {
+function DirectorySearchParams({ children }: { children: (levelParam: string | null, isPostgraduate: boolean) => React.ReactNode }) {
   const searchParams = useSearchParams();
   const levelParam = searchParams.get("level");
   const isPostgraduate = levelParam === "postgraduate";
+  return <>{children(levelParam, isPostgraduate)}</>;
+}
+
+function DirectoryContent({ levelParam, isPostgraduate }: { levelParam: string | null, isPostgraduate: boolean }) {
 
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
@@ -354,7 +358,30 @@ function DirectoryContent() {
         <div className="container">
           <div className="section-header animate-fade-up animate-delay-1">
             <p className="section-label">Alumni Directory</p>
-            <h2 className="section-title">{getHeading()}</h2>
+            <h2 className="section-title">
+              {getHeading()}
+              <span className="sparkle-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <g className="star-ring">
+                    {Array.from({ length: 12 }).map((_, i) => {
+                      const angle = i * 30;
+                      return (
+                        <g key={i} transform={`rotate(${angle} 12 12)`}>
+                          <svg x="12" y="3" width="3" height="3" viewBox="0 0 24 24" fill="#E63946">
+                            <path d="M12 1.6l2.9 5.8 6.4.9-4.6 4.5 1.1 6.4L12 18.9l-5.8 3 1.1-6.4L2.7 8.3l6.4-.9L12 1.6z" />
+                          </svg>
+                        </g>
+                      );
+                    })}
+                  </g>
+                  <g className="center-star">
+                    <svg x="6.5" y="6.5" width="11" height="11" viewBox="0 0 24 24" fill="#E63946">
+                      <path d="M12 1.6l2.9 5.8 6.4.9-4.6 4.5 1.1 6.4L12 18.9l-5.8 3 1.1-6.4L2.7 8.3l6.4-.9L12 1.6z" />
+                    </svg>
+                  </g>
+                </svg>
+              </span>
+            </h2>
           </div>
 
           {/* Search and Filters */}
@@ -807,7 +834,9 @@ function DirectoryContent() {
 export default function Directory() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <DirectoryContent />
+      <DirectorySearchParams>
+        {(levelParam, isPostgraduate) => <DirectoryContent levelParam={levelParam} isPostgraduate={isPostgraduate} />}
+      </DirectorySearchParams>
     </Suspense>
   );
 }
