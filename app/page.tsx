@@ -33,18 +33,18 @@ export default function Home() {
                         const angle = i * 30;
                         return (
                           <g key={i} transform={`rotate(${angle} 12 12)`}>
-                            <svg x="12" y="3" width="3" height="3" viewBox="0 0 24 24" fill="#E63946">
+                            <svg x="12" y="3" width="3.5" height="3.5" viewBox="0 0 24 24" fill="#E63946">
                               <path d="M12 1.6l2.9 5.8 6.4.9-4.6 4.5 1.1 6.4L12 18.9l-5.8 3 1.1-6.4L2.7 8.3l6.4-.9L12 1.6z" />
                             </svg>
                           </g>
                         );
                       })}
                     </g>
-                    <g className="center-star">
-                      <svg x="6.5" y="6.5" width="11" height="11" viewBox="0 0 24 24" fill="#E63946">
-                        <path d="M12 1.6l2.9 5.8 6.4.9-4.6 4.5 1.1 6.4L12 18.9l-5.8 3 1.1-6.4L2.7 8.3l6.4-.9L12 1.6z" />
-                      </svg>
-                    </g>
+                  </svg>
+                  <svg className="center-star" width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ position: 'absolute', top: 0, left: 0 }}>
+                    <svg x="7" y="7" width="10" height="10" viewBox="0 0 24 24" fill="#E63946">
+                      <path d="M12 1.6l2.9 5.8 6.4.9-4.6 4.5 1.1 6.4L12 18.9l-5.8 3 1.1-6.4L2.7 8.3l6.4-.9L12 1.6z" />
+                    </svg>
                   </svg>
                 </span>
               </span>

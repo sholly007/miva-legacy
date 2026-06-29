@@ -2072,11 +2072,22 @@ h1, h2, h3, h4 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 0.9em;
-  height: 0.9em;
+  width: 1.8em;
+  height: 1.8em;
   vertical-align: baseline;
-  animation: spin 6s linear infinite;
   margin-left: 0.15em;
+  position: relative;
+}
+
+.sparkle-icon > svg:first-child {
+  animation: spin 6s linear infinite;
+}
+
+.center-star {
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: none;
 }
 
 @keyframes spin {
