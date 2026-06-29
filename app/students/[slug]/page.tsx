@@ -63,10 +63,10 @@ export default async function StudentProfile({ params }: { params: { slug: strin
     student.degree_level === VALID_DEGREE_LEVELS.MASTERS || 
     student.degree_level === VALID_DEGREE_LEVELS.PHD || 
     student.degree_level === VALID_DEGREE_LEVELS.POSTGRAD_DIPLOMA;
-  const theme = getDirectoryTheme(isPostgraduate);
+  const { theme } = getDirectoryTheme(isPostgraduate);
 
   return (
-    <main>
+    <main data-theme={theme}>
       <SiteNav
         badge="Member Verified"
         links={[
@@ -82,7 +82,7 @@ export default async function StudentProfile({ params }: { params: { slug: strin
           <aside className="panel panel-sidebar">
             <img src={student.profile_photo_url} alt={student.full_name} className="profile-avatar" />
 
-            <span className={`${theme.verifiedBadge} profile-verified`}>
+            <span className="verified-badge profile-verified">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                       </svg>
@@ -145,7 +145,7 @@ export default async function StudentProfile({ params }: { params: { slug: strin
                 {student.gpa && (
                   <div className="profile-stat">
                     <p className="profile-stat-label">GPA</p>
-                            <p className={`profile-stat-value ${theme.accent}`}>
+                            <p className="profile-stat-value accent">
                       {(() => {
                         const gpa = parseFloat(student.gpa);
                         if (isNaN(gpa)) {
@@ -221,7 +221,7 @@ export default async function StudentProfile({ params }: { params: { slug: strin
                 )}
               </div>
 
-              {student.quote && <blockquote className={theme.panelQuote}>&ldquo;{student.quote}&rdquo;</blockquote>}
+              {student.quote && <blockquote className="panel-quote">&ldquo;{student.quote}&rdquo;</blockquote>}
 
               {hasSocialLinks && (
                 <div className="social-row" style={{ marginTop: "24px" }}>
